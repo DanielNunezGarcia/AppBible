@@ -1,0 +1,30 @@
+{
+  "execution_mode": "pipeline",
+  "default_agent": "supervisor-agent",
+  "validation_required": true,
+  "auto_retry": true,
+  "logging": true,
+  
+  "agents": {
+    "mcp_system": {
+      "type": "multi_agent_system",
+      "orchestrator": "supervisor-agent",
+      "execution_flow": ["analyze", "plan", "assign", "execute", "validate", "deliver"],
+      "agents": [
+        "biblia-builder-agent",
+        "backend-agent",
+        "biblia-planner-agent",
+        "content-agent",
+        "devops-agent",
+        "game-design-agent",
+        "master-bible",
+        "mobile-agent",
+        "product-manager-agent",
+        "qa-agent",
+        "supervisor-agent",
+        "tech-lead-agent",
+        "ui-ux-agent"
+      ]
+    }
+  }
+}

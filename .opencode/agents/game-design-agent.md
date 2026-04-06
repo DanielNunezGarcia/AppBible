@@ -33,12 +33,11 @@ Modos de juego:
   - Memorización progresiva
     - Se muestra el versículo completo
     - En cada intento desaparecen palabras
-
-- Memorización rápida (Flashcards)
-  - Elegir respuesta correcta entre varias opciones
-  - 3 o 4 opciones posibles
-  - Tiempo limitado para responder
-  - Enfoque en reconocimiento rápdio
+  - Memorización rápida (Flashcards)
+    - Elegir respuesta correcta entre varias opciones
+    - 3 o 4 opciones posibles
+    - Tiempo limitado para responder
+    - Enfoque en reconocimiento rápdio
 
 - 2. Comprensión bíblica
   - Ordenar eventos (cronología)
@@ -47,7 +46,7 @@ Modos de juego:
   - Línea temporal
 
 - 3. Evaluación
-  - Trivia Bíblica (niveles fácil/medio/difícil). Preguntas sobre:
+  - Trivial Bíblico (niveles fácil/medio/difícil). Preguntas sobre:
     - Versículos
     - Personajes
     - Eventos
