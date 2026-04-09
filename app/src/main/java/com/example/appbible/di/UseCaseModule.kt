@@ -4,6 +4,8 @@ import com.example.appbible.data.repository.DailyReadingRepository
 import com.example.appbible.domain.usecase.GetDailyReadingUseCase
 import com.example.appbible.domain.usecase.GetReadingStreakUseCase
 import com.example.appbible.domain.usecase.MarkAsReadUseCase
+import com.example.appbible.game.engine.FillVerseEngine
+import com.example.appbible.game.engine.MemorizeEngine
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,5 +38,17 @@ object UseCaseModule {
         repository: DailyReadingRepository
     ): GetReadingStreakUseCase {
         return GetReadingStreakUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFillVerseEngine(): FillVerseEngine {
+        return FillVerseEngine()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMemorizeEngine(): MemorizeEngine {
+        return MemorizeEngine()
     }
 }

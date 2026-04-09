@@ -10,10 +10,14 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+
+// Marron Oscuro para dark mode - debe definirse primero
+val MarronOscuro = Color(0xFF1A0F0A)
 
 // Light Color Scheme - Pergamino Dorado
 private val LightColorScheme = lightColorScheme(
@@ -79,13 +83,10 @@ private val DarkColorScheme = darkColorScheme(
     surfaceTint = DoradoSuave
 )
 
-// Marron Oscuro para dark mode
-val MarronOscuro = Color(0xFF1A0F0A)
-
 @Composable
 fun AppBibleTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false, // No usar dynamic color para mantener paleta pergamino
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

@@ -123,6 +123,23 @@ class MemorizeEngine @Inject constructor() {
         }
     }
 
+    companion object {
+        private fun getFlashCards(): List<FlashCard> {
+            return listOf(
+                FlashCard(1, "Génesis 1:1", "En el principio creó Dios los cielos y la tierra.", listOf("Génesis", "principio", "creó", "Dios", "cielos", "tierra"), "creacion"),
+                FlashCard(2, "Juan 3:16", "De tanto amó Dios al mundo, que dio a su Hijo unigénito, para que todo el que cree en él no se pierda, sino que tenga vida eterna.", listOf("Juan", "Dios", "amó", "mundo", "dio", "Hijo", "unigénito", "cree", "pierda", "vida", "eterna"), "salvacion"),
+                FlashCard(3, "Salmo 23:1", "Jehová es mi pastor; nada me faltará.", listOf("Salmo", "Jehová", "pastor", "nada", "faltará"), "proteccion"),
+                FlashCard(4, "Salmo 119:105", "Lámpara es a mis pies tu palabra, y lumbrera a mi camino.", listOf("Salmo", "lámpara", "pies", "palabra", "lumbrera", "camino"), "orientacion"),
+                FlashCard(5, "Proverbios 3:5", "Confía en Jehovah de todo tu corazón, y no te apoyes en tu propio entendimiento.", listOf("Proverbios", "confía", "Jehovah", "corazón", "apoyes", "entendimiento"), "confianza"),
+                FlashCard(6, "Isaías 40:31", "Pero los que esperan a Jehovah tendrán nuevas fuerzas; levantarán alas como las águilas; correrán, y no se cansarán; caminarán, y no se fatigarán.", listOf("Isaías", "esperan", "Jehovah", "nuevas", "fuerzas", "alas", "águilas", "correrán", "cansarán", "caminarán", "fatigarán"), "esperanza"),
+                FlashCard(7, "Romanos 8:28", "Y sabemos que todas las cosas cooperan para el bien de los que aman a Dios, de los que son llamados según su propósito.", listOf("Romanos", "todas", "cosas", "cooperan", "bien", "aman", "Dios", "llamados", "propósito"), "providencia"),
+                FlashCard(8, "Filipenses 4:13", "Todo lo puedo en Cristo que me fortalece.", listOf("Filipenses", "puedo", "Cristo", "fortalece"), "fortaleza"),
+                FlashCard(9, "Efesios 2:8", "Porque por gracia habéis sido salvos por la fe; y esto no viene de vosotros, sino que es don de Dios.", listOf("Efesios", "gracia", "salvos", "fe", "don", "Dios"), "gracia"),
+                FlashCard(10, "Hebreos 11:1", "Es la certeza de lo que se espera y la convicción de lo que no se ve.", listOf("Hebreos", "certeza", "espera", "convicción"), "fe")
+            )
+        }
+    }
+
     data class MemorizeState(
         val flashCards: List<FlashCard> = emptyList(),
         val currentIndex: Int = 0,

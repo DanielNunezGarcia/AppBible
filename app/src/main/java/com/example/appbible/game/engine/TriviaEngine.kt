@@ -1,5 +1,6 @@
 package com.example.appbible.game.engine
 
+import com.example.appbible.game.content.getTriviaQuestions
 import com.example.appbible.game.model.GameResult
 import com.example.appbible.game.model.TriviaQuestion
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -105,10 +106,10 @@ class TriviaEngine @Inject constructor() {
     private fun calculateScore(timeRemaining: Int, difficulty: String): Int {
         val baseScore = 100
         val timeBonus = timeRemaining * 2
-        val difficultyMultiplier = when (difficulty) {
-            "dificil" -> 2
+        val difficultyMultiplier: Double = when (difficulty) {
+            "dificil" -> 2.0
             "medio" -> 1.5
-            else -> 1
+            else -> 1.0
         }
         return ((baseScore + timeBonus) * difficultyMultiplier).toInt()
     }
