@@ -7,97 +7,85 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.appbible.presentation.theme.*
+import java.time.LocalTime
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onNavigateToLectura: () -> Unit,
     onNavigateToJuegos: () -> Unit,
     onNavigateToRetos: () -> Unit,
-    onNavigateToProgreso: () -> Unit,
-    viewModel: HomeViewModel = hiltViewModel()
+    onNavigateToProgreso: () -> Unit
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val saludo = remember {
+        val hour = LocalTime.now().hour
+        when {
+            hour < 12 -> "Buenos dias"
+            hour < 18 -> "Buenas tardes"
+            else -> "Buenas noches"
+        }
+    }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Bible Learn",
-                        style = MaterialTheme.typography.headlineLarge,
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = PergaminoClaro,
-                    titleContentColor = MarronTexto
-                )
-            )
-        },
-        containerColor = PergaminoFondo
-    ) { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .padding(16.dp)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Bible Learn",
+            style = MaterialTheme.typography.headlineLarge,
+            fontWeight = FontWeight.Bold,
+            color = MarronTexto
+        )
+        
+        Spacer(modifier = Modifier.height(8.dp))
+        
+        Text(
+            text = saludo,
+            style = MaterialTheme.typography.titleLarge,
+            color = MarronClaro
+        )
+        
+        Spacer(modifier = Modifier.height(48.dp))
+        
+        Button(
+            onClick = onNavigateToLectura,
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = DoradoPrimario)
         ) {
-            Text(
-                text = uiState.saludo,
-                style = MaterialTheme.typography.titleLarge,
-                color = MarronTexto
-            )
-            
-            Spacer(modifier = Modifier.height(8.dp))
-            
-            Text(
-                text = "Racha: ${uiState.racha} días",
-                style = MaterialTheme.typography.bodyLarge,
-                color = DoradoPrimario
-            )
-            
-            Spacer(modifier = Modifier.height(24.dp))
-            
-            Button(
-                onClick = onNavigateToLectura,
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = DoradoPrimario)
-            ) {
-                Text("📖 Lectura de Hoy")
-            }
-            
-            Spacer(modifier = Modifier.height(16.dp))
-            
-            Button(
-                onClick = onNavigateToJuegos,
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = VerdeEsperanza)
-            ) {
-                Text("🎮 Juegos")
-            }
-            
-            Spacer(modifier = Modifier.height(16.dp))
-            
-            Button(
-                onClick = onNavigateToRetos,
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = Carmesi)
-            ) {
-                Text("🔥 Reto del Día")
-            }
-            
-            Spacer(modifier = Modifier.height(16.dp))
-            
-            Button(
-                onClick = onNavigateToProgreso,
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = DoradoOscuro)
-            ) {
-                Text("🏆 Mi Progreso")
-            }
+            Text("Lectura Diaria")
+        }
+        
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        Button(
+            onClick = onNavigateToJuegos,
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = VerdeEsperanza)
+        ) {
+            Text("Juegos")
+        }
+        
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        Button(
+            onClick = onNavigateToRetos,
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = Carmesi)
+        ) {
+            Text("Retos")
+        }
+        
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        Button(
+            onClick = onNavigateToProgreso,
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = DoradoOscuro)
+        ) {
+            Text("Progreso")
         }
     }
 }
