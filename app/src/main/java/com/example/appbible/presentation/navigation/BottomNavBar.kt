@@ -3,11 +3,11 @@ package com.example.appbible.presentation.navigation
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.EmojiEvents
-import androidx.compose.material.icons.filled.Games
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.outlined.EmojiEvents
-import androidx.compose.material.icons.outlined.Games
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.MenuBook
 import androidx.compose.material3.Icon
@@ -35,16 +35,16 @@ data class BottomNavItem(
 
 val bottomNavItems = listOf(
     BottomNavItem(
+        route = "home",
+        title = "Inicio",
+        selectedIcon = Icons.Filled.Home,
+        unselectedIcon = Icons.Outlined.Home
+    ),
+    BottomNavItem(
         route = "lectura",
         title = "Lectura",
         selectedIcon = Icons.Filled.MenuBook,
         unselectedIcon = Icons.Outlined.MenuBook
-    ),
-    BottomNavItem(
-        route = "juegos",
-        title = "Juegos",
-        selectedIcon = Icons.Filled.Games,
-        unselectedIcon = Icons.Outlined.Games
     ),
     BottomNavItem(
         route = "retos",
@@ -69,14 +69,14 @@ fun BottomNavBar(navController: NavController) {
         containerColor = PergaminoClaro
     ) {
         bottomNavItems.forEach { item ->
-            val isSelected = currentRoute?.startsWith(item.route) == true
+            val isSelected = currentRoute == item.route
             
             NavigationBarItem(
                 selected = isSelected,
                 onClick = {
                     if (currentRoute != item.route) {
                         navController.navigate(item.route) {
-                            popUpTo("lectura") { saveState = true }
+                            popUpTo(Screen.Home.route) { saveState = true }
                             launchSingleTop = true
                             restoreState = true
                         }

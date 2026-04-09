@@ -30,9 +30,7 @@ fun AppNavigation(navController: NavHostController) {
         }
 
         composable(Screen.Lectura.route) {
-            LecturaScreen(
-                onBack = { navController.popBackStack() }
-            )
+            LecturaScreen()
         }
 
         composable(Screen.Juegos.route) {
@@ -66,15 +64,11 @@ fun AppNavigation(navController: NavHostController) {
         }
 
         composable(Screen.Retos.route) {
-            RetosScreen(
-                onBack = { navController.popBackStack() }
-            )
+            RetosScreen()
         }
 
         composable(Screen.Progreso.route) {
-            ProgresoScreen(
-                onBack = { navController.popBackStack() }
-            )
+            ProgresoScreen()
         }
     }
 }

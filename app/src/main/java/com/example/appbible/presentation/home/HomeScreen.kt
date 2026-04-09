@@ -26,8 +26,8 @@ fun HomeScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "AppBible ✨ Puntos: ${uiState.puntos}",
-                        style = MaterialTheme.typography.titleLarge,
+                        text = "Bible Learn",
+                        style = MaterialTheme.typography.headlineLarge,
                         fontWeight = FontWeight.Bold
                     )
                 },
@@ -47,7 +47,7 @@ fun HomeScreen(
         ) {
             Text(
                 text = uiState.saludo,
-                style = MaterialTheme.typography.headlineSmall,
+                style = MaterialTheme.typography.titleLarge,
                 color = MarronTexto
             )
             

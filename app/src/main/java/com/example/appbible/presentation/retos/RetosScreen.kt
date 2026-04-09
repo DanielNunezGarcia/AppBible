@@ -1,8 +1,6 @@
 package com.example.appbible.presentation.retos
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -14,17 +12,15 @@ import com.example.appbible.presentation.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RetosScreen(
-    onBack: () -> Unit
-) {
+fun RetosScreen() {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("🔥 Retos Diarios", fontWeight = FontWeight.Bold) },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
-                    }
+                title = { 
+                    Text(
+                        text = "Bible Learn",
+                        fontWeight = FontWeight.Bold
+                    ) 
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = PergaminoClaro,

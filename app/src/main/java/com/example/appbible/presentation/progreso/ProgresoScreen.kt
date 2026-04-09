@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material.icons.filled.MenuBook
@@ -21,7 +20,6 @@ import com.example.appbible.presentation.theme.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProgresoScreen(
-    onBack: () -> Unit,
     viewModel: ProgresoViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -29,11 +27,11 @@ fun ProgresoScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("🏆 Mi Progreso", fontWeight = FontWeight.Bold) },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
-                    }
+                title = { 
+                    Text(
+                        text = "Bible Learn",
+                        fontWeight = FontWeight.Bold
+                    ) 
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = PergaminoClaro,

@@ -3,8 +3,6 @@ package com.example.appbible.presentation.lectura
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,7 +17,6 @@ import com.example.appbible.presentation.theme.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LecturaScreen(
-    onBack: () -> Unit,
     viewModel: LecturaViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -28,11 +25,11 @@ fun LecturaScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("📖 Lectura Diaria", fontWeight = FontWeight.Bold) },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
-                    }
+                title = { 
+                    Text(
+                        text = "Bible Learn",
+                        fontWeight = FontWeight.Bold 
+                    ) 
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = PergaminoClaro,
