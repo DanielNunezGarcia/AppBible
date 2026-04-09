@@ -43,75 +43,60 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(16.dp)
         ) {
-            Spacer(modifier = Modifier.height(32.dp))
-            
             Text(
                 text = uiState.saludo,
-                style = MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.titleLarge,
                 color = MarronTexto
             )
             
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(8.dp))
+            
+            Text(
+                text = "Racha: ${uiState.racha} días",
+                style = MaterialTheme.typography.bodyLarge,
+                color = DoradoPrimario
+            )
+            
+            Spacer(modifier = Modifier.height(24.dp))
             
             Button(
                 onClick = onNavigateToLectura,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp),
+                modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = DoradoPrimario)
             ) {
-                Text(
-                    text = "Lectura Diaria",
-                    style = MaterialTheme.typography.titleMedium
-                )
+                Text("📖 Lectura de Hoy")
             }
             
             Spacer(modifier = Modifier.height(16.dp))
             
             Button(
                 onClick = onNavigateToJuegos,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp),
+                modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = VerdeEsperanza)
             ) {
-                Text(
-                    text = "Juegos",
-                    style = MaterialTheme.typography.titleMedium
-                )
+                Text("🎮 Juegos")
             }
             
             Spacer(modifier = Modifier.height(16.dp))
             
             Button(
                 onClick = onNavigateToRetos,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp),
+                modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Carmesi)
             ) {
-                Text(
-                    text = "Retos",
-                    style = MaterialTheme.typography.titleMedium
-                )
+                Text("🔥 Reto del Día")
             }
             
             Spacer(modifier = Modifier.height(16.dp))
             
             Button(
                 onClick = onNavigateToProgreso,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp),
+                modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = DoradoOscuro)
             ) {
-                Text(
-                    text = "Progreso",
-                    style = MaterialTheme.typography.titleMedium
-                )
+                Text("🏆 Mi Progreso")
             }
         }
     }

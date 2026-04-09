@@ -7,14 +7,21 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.appbible.presentation.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LecturaScreen() {
+fun LecturaScreen(
+    viewModel: LecturaViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsState()
+    var expanded by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -40,6 +47,14 @@ fun LecturaScreen() {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Text(
+                text = "Racha: ${uiState.rachaDias} días",
+                style = MaterialTheme.typography.titleMedium,
+                color = DoradoPrimario
+            )
+            
+            Spacer(modifier = Modifier.height(16.dp))
+            
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = PergaminoClaro)
@@ -49,7 +64,7 @@ fun LecturaScreen() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Génesis 1:1",
+                        text = uiState.referencia,
                         style = MaterialTheme.typography.titleLarge,
                         color = Carmesi,
                         fontWeight = FontWeight.Bold
@@ -58,8 +73,10 @@ fun LecturaScreen() {
                     Spacer(modifier = Modifier.height(12.dp))
                     
                     Text(
-                        text = "\"En el principio creó Dios los cielos y la tierra.\"",
-                        style = MaterialTheme.typography.bodyLarge,
+                        text = uiState.versiculo,
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontStyle = FontStyle.Italic
+                        ),
                         color = MarronTexto,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
@@ -67,7 +84,7 @@ fun LecturaScreen() {
                 }
             }
             
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -75,7 +92,7 @@ fun LecturaScreen() {
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = "Reflexión del día",
+                        text = "💭 Reflexión del día",
                         style = MaterialTheme.typography.titleMedium,
                         color = VerdeEsperanza,
                         fontWeight = FontWeight.Bold
@@ -84,20 +101,54 @@ fun LecturaScreen() {
                     Spacer(modifier = Modifier.height(8.dp))
                     
                     Text(
-                        text = "En el principio de todo, Dios creó el universo con amor. Cada día que comienza es una nueva oportunidad para experimentar Su creación y Su presencia en nuestras vidas.",
+                        text = uiState.reflexion,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MarronTexto
                     )
                 }
             }
             
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             
-            Text(
-                text = "Próximamente más versículos...",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MarronClaro
-            )
+            Box {
+                TextButton(onClick = { expanded = true }) {
+                    Text("📖 Versión: ${uiState.version}")
+                }
+                
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    listOf("RVR1960", "NTV", "NVI").forEach { version ->
+                        DropdownMenuItem(
+                            text = { Text(version) },
+                            onClick = {
+                                viewModel.cambiarVersion(version)
+                                expanded = false
+                            }
+                        )
+                    }
+                }
+            }
+            
+            Spacer(modifier = Modifier.height(16.dp))
+            
+            Button(
+                onClick = { viewModel.marcarLeido() },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !uiState.yaLeido,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (uiState.yaLeido) VerdeClaro else DoradoPrimario
+                )
+            ) {
+                Text(if (uiState.yaLeido) "✓ Leído" else "✅ Marcar como leído (+50 XP)")
+            }
+            
+            Spacer(modifier = Modifier.height(8.dp))
+            
+            TextButton(onClick = { viewModel.siguienteLectura() }) {
+                Text("➡️ Siguiente")
+            }
         }
     }
 }
