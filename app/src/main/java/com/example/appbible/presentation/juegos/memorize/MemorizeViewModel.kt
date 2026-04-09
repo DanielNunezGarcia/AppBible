@@ -52,6 +52,11 @@ class MemorizeViewModel @Inject constructor(
         stateCollectionJob?.cancel()
         stateCollectionJob = memorizeEngine.currentState
             .onEach { state ->
+                // Si el juego terminó y no es loading, guardar puntuación
+                if (state.isGameOver && !_uiState.value.isLoading) {
+                    guardarPuntuacion()
+                }
+                
                 _uiState.value = MemorizeUiState(
                     versiculoActual = state.currentCard?.verseText ?: "",
                     referencia = state.currentCard?.reference ?: "",
@@ -70,6 +75,16 @@ class MemorizeViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
     }
+    
+    private fun guardarPuntuacion() {
+        viewModelScope.launch {
+            val resultado = memorizeEngine.finishGame()
+            scoreDao.incrementGamesPlayed()
+            scoreDao.addPoints(resultado.pointsEarned)
+            scoreDao.addXP(resultado.xpEarned)
+            scoreDao.incrementVersesMemorized()
+        }
+    }
 
     fun setRespuesta(respuesta: String) {
         memorizeEngine.setUserAnswer(respuesta)
@@ -86,16 +101,6 @@ class MemorizeViewModel @Inject constructor(
             kotlinx.coroutines.delay(1500)
             memorizeEngine.nextCard()
             _uiState.value = _uiState.value.copy(respuestaUsuario = "")
-        }
-    }
-
-    fun terminarJuego() {
-        viewModelScope.launch {
-            val resultado = memorizeEngine.finishGame()
-            scoreDao.incrementGamesPlayed()
-            scoreDao.addPoints(resultado.pointsEarned)
-            scoreDao.addXP(resultado.xpEarned)
-            scoreDao.incrementVersesMemorized()
         }
     }
 
