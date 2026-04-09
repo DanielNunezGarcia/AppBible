@@ -193,16 +193,15 @@ private fun construirVersiculoOculto(texto: String, pistas: List<String>): Strin
     if (pistas.isEmpty()) {
         return texto.map { if (it.isLetter()) '_' else it }.joinToString("")
     }
-    // Dividir por palabras preservando espacios
+    
     val palabras = texto.split(" ")
     val pistasLower = pistas.map { it.lowercase() }
     
     return palabras.map { palabra ->
         val palabraLimpia = palabra.lowercase().replace(Regex("[^a-záéíóúüñ]"), "")
-        if (palabras.indexOf(palabra) == -1 && palabras.isNotEmpty()) {
-            // Caso especial para cuando hay una sola palabra
-            "_".repeat(palabra.length)
-        } else if (pistasLower.any { it == palabraLimpia || palabraLimpia.contains(it) }) {
+        if (pistasLower.any { pista -> 
+            palabraLimpia.contains(pista) || pista.contains(palabraLimpia)
+        }) {
             palabra
         } else {
             "_".repeat(palabra.length)

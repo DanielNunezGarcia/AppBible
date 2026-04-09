@@ -47,8 +47,8 @@ fun TriviaScreen(
         if (uiState.juegoTerminado) {
             PantallaResultados(
                 score = uiState.score,
-                preguntasCorrectas = uiState.respuestasMarcadas.count { (indice, respuesta) ->
-                    preguntas.getOrNull(indice)?.correctIndex == respuesta
+                preguntasCorrectas = uiState.respuestasMarcadas.count { (_, respuesta) ->
+                    uiState.preguntaActual?.correctIndex == respuesta
                 },
                 totalPreguntas = uiState.totalPreguntas,
                 onReiniciar = { viewModel.reiniciarJuego() },
@@ -72,8 +72,6 @@ fun TriviaScreen(
     }
 }
 
-private var preguntas = listOf<TriviaQuestion>()
-
 @Composable
 private fun PantallaPregunta(
     pregunta: TriviaQuestion,
@@ -87,7 +85,7 @@ private fun PantallaPregunta(
     onSeleccionarRespuesta: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    preguntas = listOf(pregunta)
+    // NO usar variable global en Compose - pasar el estado directamente
 
     Column(
         modifier = modifier

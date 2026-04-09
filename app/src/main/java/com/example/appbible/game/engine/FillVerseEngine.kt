@@ -121,11 +121,11 @@ class FillVerseEngine @Inject constructor() {
     companion object {
         private fun getFillVerses(): List<FillVerseData> {
             return listOf(
-                FillVerseData(1, "En el ___ creó Dios los cielos y la tierra.", "Génesis 1:1", 2, listOf("principio"), listOf("principio", "tiempo", "inicio", "origen")),
-                FillVerseData(2, "Jehová es mi pastor; ___ me faltará.", "Salmo 23:1", 2, listOf("no"), listOf("no", "jamás", "nunca", "solamente")),
+                FillVerseData(1, "En el ___ creó Dios los cielos y la tierra.", "Génesis 1:1", 1, listOf("principio"), listOf("principio", "tiempo", "inicio", "origen")),
+                FillVerseData(2, "Jehová es mi pastor; ___ me faltará.", "Salmo 23:1", 1, listOf("no"), listOf("no", "jamás", "nunca", "solamente")),
                 FillVerseData(3, "De tanto amó Dios al mundo, que ___ a su Hijo unigénito.", "Juan 3:16", 1, listOf("dio"), listOf("dio", "entregó", "envió", "mandó")),
                 FillVerseData(4, "Todo aquel que crere en él no se perderá, sino que ___ vida eterna.", "Juan 3:16", 1, listOf("tendrá"), listOf("tendrá", "recibirá", "obtendrás", "tuvieras")),
-                FillVerseData(5, "Jesús le dijo: Yo soy el camino, y la verdad, y la vida; nadie viene al Padre sino ___ mi.", "Juan 14:6", 2, listOf("por"), listOf("por", "mediante", "a través", "según")),
+                FillVerseData(5, "Jesús le dijo: Yo soy el camino, y la verdad, y la vida; nadie viene al Padre sino ___ mi.", "Juan 14:6", 1, listOf("por"), listOf("por", "mediante", "a través", "según")),
                 FillVerseData(6, "El señor es mi luz y mi salvación; ___ temeré.", "Salmo 27:1", 1, listOf("a quién"), listOf("a quién", "nada", "nunca", "a nadie")),
                 FillVerseData(7, "Contigo está la ___ de tu palabra.", "Salmo 119:41", 1, listOf("misericordia"), listOf("misericordia", "gracia", "bondad", "grandeza")),
                 FillVerseData(8, "El que ___ en mí, aunque muera, vivirá.", "Juan 11:25", 1, listOf("cree"), listOf("cree", "confía", "espera", "obedezca")),

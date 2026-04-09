@@ -59,8 +59,12 @@ class MemorizeEngine @Inject constructor() {
     fun checkAnswer(): Boolean {
         val state = _currentState.value
         val currentCard = state.flashCards[state.currentIndex]
-        val isCorrect = state.userAnswer.trim()
-            .equals(currentCard.verseText, ignoreCase = true)
+        
+        // Comparación flexible: normalizar texto para comparación
+        val respuestaNormalizada = normalizarTexto(state.userAnswer)
+        val textoCorrecto = normalizarTexto(currentCard.verseText)
+        
+        val isCorrect = respuestaNormalizada == textoCorrecto
 
         val newScore = if (isCorrect) {
             state.score + calculateScore(state.currentLevel)
@@ -77,6 +81,14 @@ class MemorizeEngine @Inject constructor() {
         )
 
         return isCorrect
+    }
+    
+    private fun normalizarTexto(texto: String): String {
+        return texto
+            .lowercase()
+            .trim()
+            .replace(Regex("\\s+"), " ") // Normalizar espacios múltiples
+            .replace(Regex("[.,;:!?]+"), "") // Eliminar puntuación
     }
 
     fun nextCard() {

@@ -5,9 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.appbible.data.local.dao.ScoreDao
 import com.example.appbible.game.engine.FillVerseEngine
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,6 +37,8 @@ class FillVerseViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(FillVerseUiState())
     val uiState: StateFlow<FillVerseUiState> = _uiState.asStateFlow()
+    
+    private var stateCollectionJob: Job? = null
 
     init {
         iniciarJuego()
@@ -41,8 +46,16 @@ class FillVerseViewModel @Inject constructor(
 
     private fun iniciarJuego() {
         fillVerseEngine.loadVerses("facil")
-        viewModelScope.launch {
-            fillVerseEngine.currentState.collect { state ->
+        
+        // Cancelar colección anterior para evitar memory leaks
+        stateCollectionJob?.cancel()
+        stateCollectionJob = fillVerseEngine.currentState
+            .onEach { state ->
+                // Si el juego terminó y no es loading, guardar puntuación
+                if (state.isGameOver && !_uiState.value.isLoading) {
+                    guardarPuntuacion()
+                }
+                
                 _uiState.value = FillVerseUiState(
                     versiculoActual = state.currentVerse?.fullText ?: "",
                     referencia = state.currentVerse?.reference ?: "",
@@ -57,6 +70,18 @@ class FillVerseViewModel @Inject constructor(
                     isLoading = false
                 )
             }
+            .launchIn(viewModelScope)
+    }
+    
+    private fun guardarPuntuacion() {
+        viewModelScope.launch {
+            val resultado = fillVerseEngine.finishGame()
+            scoreDao.incrementGamesPlayed()
+            if (_uiState.value.vidas > 0) {
+                scoreDao.incrementGamesWon()
+            }
+            scoreDao.addPoints(resultado.pointsEarned)
+            scoreDao.addXP(resultado.xpEarned)
         }
     }
 
@@ -77,18 +102,6 @@ class FillVerseViewModel @Inject constructor(
     fun seleccionarOpcion(opcion: String) {
         setRespuesta(opcion)
         verificarRespuesta()
-    }
-
-    fun terminarJuego() {
-        viewModelScope.launch {
-            val resultado = fillVerseEngine.finishGame()
-            scoreDao.incrementGamesPlayed()
-            if (_uiState.value.vidas > 0) {
-                scoreDao.incrementGamesWon()
-            }
-            scoreDao.addPoints(resultado.pointsEarned)
-            scoreDao.addXP(resultado.xpEarned)
-        }
     }
 
     fun reiniciarJuego() {
