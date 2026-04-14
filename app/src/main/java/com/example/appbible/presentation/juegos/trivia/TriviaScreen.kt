@@ -1,16 +1,17 @@
 package com.example.appbible.presentation.juegos.trivia
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -33,7 +34,7 @@ fun TriviaScreen(
                 title = { Text("📝 Trivia Bíblica", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -44,30 +45,229 @@ fun TriviaScreen(
         },
         containerColor = PergaminoFondo
     ) { padding ->
-        if (uiState.juegoTerminado) {
-            PantallaResultados(
-                score = uiState.score,
-                preguntasCorrectas = uiState.respuestasMarcadas.count { (_, respuesta) ->
-                    uiState.preguntaActual?.correctIndex == respuesta
-                },
-                totalPreguntas = uiState.totalPreguntas,
-                onReiniciar = { viewModel.reiniciarJuego() },
-                onSalir = onFinish,
-                modifier = Modifier.padding(padding)
-            )
-        } else if (uiState.preguntaActual != null) {
-            PantallaPregunta(
-                pregunta = uiState.preguntaActual!!,
-                indicePregunta = uiState.indicePregunta,
-                totalPreguntas = uiState.totalPreguntas,
-                vidas = uiState.vidas,
-                tiempoRestante = uiState.tiempoRestante,
-                mostrarFeedback = uiState.mostrarFeedback,
-                respuestaCorrecta = uiState.respuestaCorrecta,
-                respuestasMarcadas = uiState.respuestasMarcadas,
-                onSeleccionarRespuesta = { viewModel.seleccionarRespuesta(it) },
-                modifier = Modifier.padding(padding)
-            )
+        Box(modifier = Modifier.padding(padding)) {
+            when {
+                uiState.mostrarSelectorDificultad -> {
+                    SelectorDificultad(
+                        onSeleccionar = { modo ->
+                            viewModel.seleccionarDificultadYComenzar(modo)
+                        },
+                        onSalir = onFinish
+                    )
+                }
+                uiState.juegoTerminado -> {
+                    PantallaResultados(
+                        score = uiState.score,
+                        preguntasCorrectas = uiState.respuestasMarcadas.count { (_, respuesta) ->
+                            uiState.preguntaActual?.correctIndex == respuesta
+                        },
+                        totalPreguntas = uiState.totalPreguntas,
+                        dificultad = uiState.dificultadActual,
+                        onReiniciar = { viewModel.reiniciarJuego() },
+                        onSalir = onFinish
+                    )
+                }
+                uiState.preguntaActual != null -> {
+                    PantallaPregunta(
+                        pregunta = uiState.preguntaActual!!,
+                        indicePregunta = uiState.indicePregunta,
+                        totalPreguntas = uiState.totalPreguntas,
+                        vidas = uiState.vidas,
+                        tiempoRestante = uiState.tiempoRestante,
+                        tiempoTotal = uiState.dificultadActual.tiempo,
+                        mostrarFeedback = uiState.mostrarFeedback,
+                        respuestaCorrecta = uiState.respuestaCorrecta,
+                        respuestasMarcadas = uiState.respuestasMarcadas,
+                        onSeleccionarRespuesta = { viewModel.seleccionarRespuesta(it) }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SelectorDificultad(
+    onSeleccionar: (ModoJuego) -> Unit,
+    onSalir: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        Text(
+            text = "Trivia Bíblica",
+            style = MaterialTheme.typography.headlineMedium,
+            color = MarronTexto,
+            fontWeight = FontWeight.Bold
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Text(
+            text = "100 preguntas sobre la Biblia",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MarronClaro
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(
+            text = "Selecciona la dificultad",
+            style = MaterialTheme.typography.titleMedium,
+            color = MarronTexto
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = VerdeEsperanza.copy(alpha = 0.2f))
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "🌱 Fácil",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = VerdeEsperanza,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "30s • 50 pts",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MarronClaro
+                    )
+                }
+                Button(
+                    onClick = { onSeleccionar(ModoJuego.FACIL) },
+                    modifier = Modifier.width(100.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = VerdeEsperanza),
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
+                ) {
+                    Text("Jugar", style = MaterialTheme.typography.bodyMedium)
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = DoradoPrimario.copy(alpha = 0.2f))
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "⭐ Medio",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = DoradoPrimario,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "20s • 100 pts",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MarronClaro
+                    )
+                }
+                Button(
+                    onClick = { onSeleccionar(ModoJuego.MEDIO) },
+                    modifier = Modifier.width(100.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = DoradoPrimario),
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
+                ) {
+                    Text("Jugar", style = MaterialTheme.typography.bodyMedium)
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = Carmesi.copy(alpha = 0.2f))
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "🔥 Difícil",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = Carmesi,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "15s • 150 pts",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MarronClaro
+                    )
+                }
+                Button(
+                    onClick = { onSeleccionar(ModoJuego.DIFICIL) },
+                    modifier = Modifier.width(100.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Carmesi),
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
+                ) {
+                    Text("Jugar", style = MaterialTheme.typography.bodyMedium)
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Card(
+                modifier = Modifier.weight(1f),
+                colors = CardDefaults.cardColors(containerColor = PergaminoClaro)
+            ) {
+                Column(
+                    modifier = Modifier.padding(12.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "🎲 Aleatorio",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MarronTexto,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "Mezcla todo",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MarronClaro
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedButton(
+                        onClick = { onSeleccionar(ModoJuego.ALEATORIO) },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Jugar")
+                    }
+                }
+            }
         }
     }
 }
@@ -79,142 +279,169 @@ private fun PantallaPregunta(
     totalPreguntas: Int,
     vidas: Int,
     tiempoRestante: Int,
+    tiempoTotal: Int,
     mostrarFeedback: Boolean,
     respuestaCorrecta: Boolean,
     respuestasMarcadas: Map<Int, Int>,
-    onSeleccionarRespuesta: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    onSeleccionarRespuesta: (Int) -> Unit
 ) {
-    // NO usar variable global en Compose - pasar el estado directamente
-
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.SpaceBetween
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row {
-                    repeat(vidas) {
-                        Icon(
-                            imageVector = Icons.Filled.Favorite,
-                            contentDescription = "Vida",
-                            tint = Carmesi,
-                            modifier = Modifier.size(24.dp)
-                        )
-                    }
-                    repeat(3 - vidas) {
-                        Icon(
-                            imageVector = Icons.Filled.FavoriteBorder,
-                            contentDescription = "Vida perdida",
-                            tint = MarronClaro,
-                            modifier = Modifier.size(24.dp)
-                        )
-                    }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row {
+                repeat(vidas) {
+                    Icon(
+                        imageVector = Icons.Filled.Favorite,
+                        contentDescription = "Vida",
+                        tint = Carmesi,
+                        modifier = Modifier.size(24.dp)
+                    )
                 }
-                
-                Text(
-                    text = "⏱️ ${tiempoRestante}s",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = if (tiempoRestante <= 10) Carmesi else MarronTexto
-                )
+                repeat(3 - vidas) {
+                    Icon(
+                        imageVector = Icons.Filled.FavoriteBorder,
+                        contentDescription = "Vida perdida",
+                        tint = MarronClaro,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
             }
             
-            Spacer(modifier = Modifier.height(8.dp))
-            
-            LinearProgressIndicator(
-                progress = { tiempoRestante / 25f },
-                modifier = Modifier.fillMaxWidth(),
-                color = if (tiempoRestante <= 10) Carmesi else DoradoPrimario,
-                trackColor = PergaminoClaro
-            )
-            
-            Spacer(modifier = Modifier.height(16.dp))
-            
             Text(
-                text = "Pregunta ${indicePregunta + 1} de $totalPreguntas",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MarronClaro
+                text = "⏱️ ${tiempoRestante}s",
+                style = MaterialTheme.typography.titleMedium,
+                color = if (tiempoRestante <= 5) Carmesi else MarronTexto
             )
+        }
+        
+        Spacer(modifier = Modifier.height(8.dp))
+        
+        LinearProgressIndicator(
+            progress = { tiempoRestante.toFloat() / tiempoTotal },
+            modifier = Modifier.fillMaxWidth(),
+            color = if (tiempoRestante <= 5) Carmesi else DoradoPrimario,
+            trackColor = PergaminoClaro
+        )
+        
+        Spacer(modifier = Modifier.height(8.dp))
+        
+        Text(
+            text = "Pregunta ${indicePregunta + 1} de $totalPreguntas",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MarronClaro
+        )
+        
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = PergaminoClaro)
+        ) {
+            Text(
+                text = pregunta.question,
+                style = MaterialTheme.typography.titleLarge,
+                color = MarronTexto,
+                modifier = Modifier.padding(16.dp),
+                textAlign = TextAlign.Center
+            )
+        }
+        
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        pregunta.options.forEachIndexed { indice, opcion ->
+            val esSeleccionada = respuestasMarcadas[indicePregunta] == indice
+            val esCorrecta = indice == pregunta.correctIndex
             
-            Spacer(modifier = Modifier.height(16.dp))
+            val colorFondo = when {
+                // Cuando se muestra feedback, la respuesta correcta siempre se muestra en verde
+                mostrarFeedback && esCorrecta -> VerdeEsperanza.copy(alpha = 0.8f)
+                // La opción que el usuario eligió se marca:
+                // - Verde si acertó (también es correcta)
+                // - Rojo si falló (no es correcta)
+                mostrarFeedback && esSeleccionada -> if (respuestaCorrecta) VerdeEsperanza.copy(alpha = 0.8f) else Carmesi.copy(alpha = 0.8f)
+                // Antes de responder, solo marca la selección actual en gris claro
+                esSeleccionada -> MarronClaro.copy(alpha = 0.4f)
+                else -> PergaminoClaro
+            }
+            
+            val colorTexto = when {
+                mostrarFeedback && (esCorrecta || (esSeleccionada && !respuestaCorrecta)) -> Blanco
+                else -> MarronTexto
+            }
+            
+            OutlinedButton(
+                onClick = { onSeleccionarRespuesta(indice) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp),
+                enabled = !mostrarFeedback,
+                colors = ButtonDefaults.outlinedButtonColors(
+                    containerColor = colorFondo,
+                    contentColor = colorTexto
+                )
+            ) {
+                Text(
+                    text = opcion,
+                    color = colorTexto,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Start
+                )
+            }
+        }
+        
+        if (mostrarFeedback) {
+            Spacer(modifier = Modifier.height(24.dp))
             
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = PergaminoClaro)
-            ) {
-                Text(
-                    text = pregunta.question,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MarronTexto,
-                    modifier = Modifier.padding(16.dp)
+                colors = CardDefaults.cardColors(
+                    containerColor = if (respuestaCorrecta) VerdeEsperanza.copy(alpha = 0.1f) else Carmesi.copy(alpha = 0.1f)
                 )
-            }
-            
-            Spacer(modifier = Modifier.height(16.dp))
-            
-            pregunta.options.forEachIndexed { indice, opcion ->
-                val colorFondo = when {
-                    mostrarFeedback && indice == pregunta.correctIndex -> VerdeClaro.copy(alpha = 0.3f)
-                    mostrarFeedback && respuestasMarcadas[indicePregunta] == indice && !respuestaCorrecta -> Carmesi.copy(alpha = 0.3f)
-                    else -> PergaminoClaro
-                }
-                
-                val colorBorde = when {
-                    mostrarFeedback && indice == pregunta.correctIndex -> VerdeEsperanza
-                    mostrarFeedback && respuestasMarcadas[indicePregunta] == indice && !respuestaCorrecta -> Carmesi
-                    else -> MarronClaro
-                }
-                
-                OutlinedButton(
-                    onClick = { onSeleccionarRespuesta(indice) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp),
-                    enabled = !mostrarFeedback,
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = colorFondo
-                    )
+            ) {
+                Column(
+                    modifier = Modifier.padding(20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = opcion,
+                        text = if (respuestaCorrecta) "✅ ¡Correcto!" else "❌ Incorrecto",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = if (respuestaCorrecta) VerdeEsperanza else Carmesi,
+                        fontWeight = FontWeight.Bold
+                    )
+                    
+                    Spacer(modifier = Modifier.height(12.dp))
+                    
+                    Text(
+                        text = pregunta.explanation,
+                        style = MaterialTheme.typography.bodyMedium,
                         color = MarronTexto,
+                        textAlign = TextAlign.Center
+                    )
+                    
+                    Spacer(modifier = Modifier.height(8.dp))
+                    
+                    Card(
                         modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Start
-                    )
-                }
-            }
-            
-            if (mostrarFeedback) {
-                Spacer(modifier = Modifier.height(16.dp))
-                
-                Card(
-                    colors = CardDefaults.cardColors(
-                        containerColor = if (respuestaCorrecta) VerdeEsperanza.copy(alpha = 0.1f) else Carmesi.copy(alpha = 0.1f)
-                    )
-                ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Text(
-                            text = if (respuestaCorrecta) "✅ ¡Correcto!" else "❌ Incorrecto",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = if (respuestaCorrecta) VerdeEsperanza else Carmesi
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = pregunta.explanation,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MarronTexto
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
+                        colors = CardDefaults.cardColors(containerColor = PergaminoClaro)
+                    ) {
                         Text(
                             text = pregunta.reference,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = DoradoPrimario
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = DoradoPrimario,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
                         )
                     }
                 }
@@ -228,12 +455,12 @@ private fun PantallaResultados(
     score: Int,
     preguntasCorrectas: Int,
     totalPreguntas: Int,
+    dificultad: Dificultad,
     onReiniciar: () -> Unit,
-    onSalir: () -> Unit,
-    modifier: Modifier = Modifier
+    onSalir: () -> Unit
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -266,6 +493,14 @@ private fun PantallaResultados(
             text = "$preguntasCorrectas de $totalPreguntas correctas",
             style = MaterialTheme.typography.titleLarge,
             color = MarronTexto
+        )
+        
+        Spacer(modifier = Modifier.height(8.dp))
+        
+        Text(
+            text = "Dificultad: ${dificultad.displayName}",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MarronClaro
         )
         
         Spacer(modifier = Modifier.height(32.dp))

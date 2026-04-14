@@ -14,6 +14,19 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+enum class Dificultad(val displayName: String, val tiempo: Int, val puntosBase: Int) {
+    FACIL("Fácil", 30, 50),
+    MEDIO("Medio", 20, 100),
+    DIFICIL("Difícil", 15, 150)
+}
+
+enum class ModoJuego(val displayName: String) {
+    FACIL("Fácil"),
+    MEDIO("Medio"),
+    DIFICIL("Difícil"),
+    ALEATORIO("Aleatorio")
+}
+
 data class TriviaUiState(
     val preguntaActual: TriviaQuestion? = null,
     val indicePregunta: Int = 0,
@@ -25,7 +38,9 @@ data class TriviaUiState(
     val juegoTerminado: Boolean = false,
     val mostrarFeedback: Boolean = false,
     val respuestaCorrecta: Boolean = false,
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val dificultadActual: Dificultad = Dificultad.MEDIO,
+    val mostrarSelectorDificultad: Boolean = true
 )
 
 @HiltViewModel
@@ -39,27 +54,45 @@ class TriviaViewModel @Inject constructor(
     private var preguntas: List<TriviaQuestion> = emptyList()
     private var timerJob: Job? = null
 
-    init {
-        iniciarJuego()
-    }
+    fun seleccionarDificultadYComenzar(modo: ModoJuego) {
+        val dificultad = when (modo) {
+            ModoJuego.FACIL -> Dificultad.FACIL
+            ModoJuego.MEDIO -> Dificultad.MEDIO
+            ModoJuego.DIFICIL -> Dificultad.DIFICIL
+            ModoJuego.ALEATORIO -> Dificultad.MEDIO
+        }
 
-    private fun iniciarJuego() {
         val todasLasPreguntas = getTriviaQuestions()
-        preguntas = todasLasPreguntas.shuffled().take(10)
-        
+        preguntas = when (modo) {
+            ModoJuego.FACIL -> todasLasPreguntas.filter { it.difficulty == "facil" }.shuffled().take(10)
+            ModoJuego.MEDIO -> todasLasPreguntas.filter { it.difficulty == "medio" }.shuffled().take(10)
+            ModoJuego.DIFICIL -> todasLasPreguntas.filter { it.difficulty == "dificil" }.shuffled().take(10)
+            ModoJuego.ALEATORIO -> todasLasPreguntas.shuffled().take(10)
+        }
+
+        if (preguntas.isEmpty()) {
+            preguntas = todasLasPreguntas.shuffled().take(10)
+        }
+
         _uiState.value = TriviaUiState(
             preguntaActual = preguntas.firstOrNull(),
             indicePregunta = 0,
             totalPreguntas = preguntas.size,
             vidas = 3,
             score = 0,
-            tiempoRestante = 25,
+            tiempoRestante = dificultad.tiempo,
             respuestasMarcadas = emptyMap(),
             juegoTerminado = false,
-            isLoading = false
+            isLoading = false,
+            dificultadActual = dificultad,
+            mostrarSelectorDificultad = false
         )
-        
+
         iniciarTimer()
+    }
+
+    fun reiniciarJuego() {
+        _uiState.value = _uiState.value.copy(mostrarSelectorDificultad = true)
     }
 
     private fun iniciarTimer() {
@@ -87,7 +120,7 @@ class TriviaViewModel @Inject constructor(
         val pregunta = _uiState.value.preguntaActual ?: return
         val correcta = indice == pregunta.correctIndex
         val nuevaVidas = if (correcta) _uiState.value.vidas else _uiState.value.vidas - 1
-        val nuevoScore = if (correcta) _uiState.value.score + 100 else _uiState.value.score
+        val nuevoScore = if (correcta) _uiState.value.score + _uiState.value.dificultadActual.puntosBase else _uiState.value.score
         
         val nuevasRespuestas = _uiState.value.respuestasMarcadas.toMutableMap()
         nuevasRespuestas[_uiState.value.indicePregunta] = indice
@@ -101,7 +134,7 @@ class TriviaViewModel @Inject constructor(
         )
         
         viewModelScope.launch {
-            delay(2000)
+            delay(6000)
             siguientePregunta()
         }
     }
@@ -117,7 +150,7 @@ class TriviaViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(
             preguntaActual = preguntas[siguienteIndice],
             indicePregunta = siguienteIndice,
-            tiempoRestante = 25,
+            tiempoRestante = _uiState.value.dificultadActual.tiempo,
             mostrarFeedback = false
         )
         
@@ -140,10 +173,6 @@ class TriviaViewModel @Inject constructor(
             juegoTerminado = true,
             mostrarFeedback = false
         )
-    }
-
-    fun reiniciarJuego() {
-        iniciarJuego()
     }
 
     override fun onCleared() {
