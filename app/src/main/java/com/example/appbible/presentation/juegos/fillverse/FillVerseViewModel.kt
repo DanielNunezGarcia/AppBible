@@ -6,6 +6,7 @@ import com.example.appbible.data.local.dao.ScoreDao
 import com.example.appbible.game.engine.FillVerseEngine
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,6 +14,19 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+enum class FillVerseDificultad(val displayName: String) {
+    FACIL("Fácil"),
+    MEDIO("Medio"),
+    DIFICIL("Difícil")
+}
+
+enum class FillVerseModo(val displayName: String) {
+    FACIL("Fácil"),
+    MEDIO("Medio"),
+    DIFICIL("Difícil"),
+    ALEATORIO("Aleatorio")
+}
 
 data class FillVerseUiState(
     val versiculoActual: String = "",
@@ -26,7 +40,9 @@ data class FillVerseUiState(
     val mostrarFeedback: Boolean = false,
     val respuestaCorrecta: Boolean = false,
     val juegoTerminado: Boolean = false,
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val dificultad: FillVerseDificultad = FillVerseDificultad.MEDIO,
+    val mostrarSelectorDificultad: Boolean = true
 )
 
 @HiltViewModel
@@ -40,20 +56,28 @@ class FillVerseViewModel @Inject constructor(
     
     private var stateCollectionJob: Job? = null
 
-    init {
-        iniciarJuego()
-    }
+    fun seleccionarDificultadYComenzar(modo: FillVerseModo) {
+        val dificultad = when (modo) {
+            FillVerseModo.FACIL -> "facil"
+            FillVerseModo.MEDIO -> "medio"
+            FillVerseModo.DIFICIL -> "dificil"
+            FillVerseModo.ALEATORIO -> "todas"
+        }
 
-    private fun iniciarJuego() {
-        fillVerseEngine.loadVerses("facil")
+        fillVerseEngine.loadVerses(dificultad)
         
-        // Cancelar colección anterior para evitar memory leaks
         stateCollectionJob?.cancel()
         stateCollectionJob = fillVerseEngine.currentState
             .onEach { state ->
-                // Si el juego terminó y no es loading, guardar puntuación
                 if (state.isGameOver && !_uiState.value.isLoading) {
                     guardarPuntuacion()
+                }
+                
+                val dificultadEnum = when (modo) {
+                    FillVerseModo.FACIL -> FillVerseDificultad.FACIL
+                    FillVerseModo.MEDIO -> FillVerseDificultad.MEDIO
+                    FillVerseModo.DIFICIL -> FillVerseDificultad.DIFICIL
+                    else -> FillVerseDificultad.MEDIO
                 }
                 
                 _uiState.value = FillVerseUiState(
@@ -67,12 +91,14 @@ class FillVerseViewModel @Inject constructor(
                     mostrarFeedback = state.isAnswered,
                     respuestaCorrecta = state.isCorrect ?: false,
                     juegoTerminado = state.isGameOver,
-                    isLoading = false
+                    isLoading = false,
+                    dificultad = dificultadEnum,
+                    mostrarSelectorDificultad = false
                 )
             }
             .launchIn(viewModelScope)
     }
-    
+
     private fun guardarPuntuacion() {
         viewModelScope.launch {
             val resultado = fillVerseEngine.finishGame()
@@ -93,7 +119,7 @@ class FillVerseViewModel @Inject constructor(
     fun verificarRespuesta() {
         val esCorrecta = fillVerseEngine.checkAnswer()
         viewModelScope.launch {
-            kotlinx.coroutines.delay(2000)
+            delay(3500)
             fillVerseEngine.nextVerse()
             _uiState.value = _uiState.value.copy(respuestaUsuario = "")
         }
@@ -105,6 +131,6 @@ class FillVerseViewModel @Inject constructor(
     }
 
     fun reiniciarJuego() {
-        iniciarJuego()
+        _uiState.value = _uiState.value.copy(mostrarSelectorDificultad = true)
     }
 }

@@ -6,6 +6,7 @@ import com.example.appbible.data.local.dao.ScoreDao
 import com.example.appbible.game.engine.MemorizeEngine
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,6 +14,19 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+enum class MemorizeDificultad(val displayName: String) {
+    FACIL("Fácil"),
+    MEDIO("Medio"),
+    DIFICIL("Difícil")
+}
+
+enum class MemorizeModo(val displayName: String) {
+    FACIL("Fácil"),
+    MEDIO("Medio"),
+    DIFICIL("Difícil"),
+    ALEATORIO("Aleatorio")
+}
 
 data class MemorizeUiState(
     val versiculoActual: String = "",
@@ -27,7 +41,9 @@ data class MemorizeUiState(
     val mostrarFeedback: Boolean = false,
     val respuestaCorrecta: Boolean = false,
     val juegoTerminado: Boolean = false,
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val dificultad: MemorizeDificultad = MemorizeDificultad.MEDIO,
+    val mostrarSelectorDificultad: Boolean = true
 )
 
 @HiltViewModel
@@ -41,20 +57,28 @@ class MemorizeViewModel @Inject constructor(
     
     private var stateCollectionJob: Job? = null
 
-    init {
-        iniciarJuego()
-    }
+    fun seleccionarDificultadYComenzar(modo: MemorizeModo) {
+        val dificultad = when (modo) {
+            MemorizeModo.FACIL -> "facil"
+            MemorizeModo.MEDIO -> "medio"
+            MemorizeModo.DIFICIL -> "dificil"
+            MemorizeModo.ALEATORIO -> "todas"
+        }
 
-    private fun iniciarJuego() {
-        memorizeEngine.loadFlashCards("facil")
+        memorizeEngine.loadFlashCards(dificultad)
         
-        // Cancelar colección anterior para evitar memory leaks
         stateCollectionJob?.cancel()
         stateCollectionJob = memorizeEngine.currentState
             .onEach { state ->
-                // Si el juego terminó y no es loading, guardar puntuación
                 if (state.isGameOver && !_uiState.value.isLoading) {
                     guardarPuntuacion()
+                }
+                
+                val dificultadEnum = when (modo) {
+                    MemorizeModo.FACIL -> MemorizeDificultad.FACIL
+                    MemorizeModo.MEDIO -> MemorizeDificultad.MEDIO
+                    MemorizeModo.DIFICIL -> MemorizeDificultad.DIFICIL
+                    else -> MemorizeDificultad.MEDIO
                 }
                 
                 _uiState.value = MemorizeUiState(
@@ -70,7 +94,9 @@ class MemorizeViewModel @Inject constructor(
                     mostrarFeedback = state.isAnswered,
                     respuestaCorrecta = state.isCorrect ?: false,
                     juegoTerminado = state.isGameOver,
-                    isLoading = false
+                    isLoading = false,
+                    dificultad = dificultadEnum,
+                    mostrarSelectorDificultad = false
                 )
             }
             .launchIn(viewModelScope)
@@ -98,13 +124,13 @@ class MemorizeViewModel @Inject constructor(
     fun verificarRespuesta() {
         val esCorrecta = memorizeEngine.checkAnswer()
         viewModelScope.launch {
-            kotlinx.coroutines.delay(1500)
+            delay(3500)
             memorizeEngine.nextCard()
             _uiState.value = _uiState.value.copy(respuestaUsuario = "")
         }
     }
 
     fun reiniciarJuego() {
-        iniciarJuego()
+        _uiState.value = _uiState.value.copy(mostrarSelectorDificultad = true)
     }
 }
