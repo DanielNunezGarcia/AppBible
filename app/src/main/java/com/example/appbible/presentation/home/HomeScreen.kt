@@ -6,86 +6,106 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.appbible.presentation.theme.*
-import java.time.LocalTime
 
 @Composable
 fun HomeScreen(
     onNavigateToLectura: () -> Unit,
     onNavigateToJuegos: () -> Unit,
     onNavigateToRetos: () -> Unit,
-    onNavigateToProgreso: () -> Unit
+    onNavigateToProgreso: () -> Unit,
+    onNavigateToDailyQuestion: () -> Unit
 ) {
-    val saludo = remember {
-        val hour = LocalTime.now().hour
-        when {
-            hour < 12 -> "Buenos dias"
-            hour < 18 -> "Buenas tardes"
-            else -> "Buenas noches"
-        }
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(32.dp))
+
         Text(
             text = "Bible Learn",
-            style = MaterialTheme.typography.headlineLarge,
+            style = MaterialTheme.typography.displayLarge,
             fontWeight = FontWeight.Bold,
-            color = MarronTexto
+            color = MarronTexto,
+            fontSize = 48.sp
         )
-        
+
         Spacer(modifier = Modifier.height(8.dp))
-        
+
         Text(
-            text = saludo,
-            style = MaterialTheme.typography.titleLarge,
-            color = MarronClaro
+            text = "Aprende la Biblia jugando",
+            style = MaterialTheme.typography.bodyLarge,
+            color = MarronClaro,
+            textAlign = TextAlign.Center
         )
-        
-        Spacer(modifier = Modifier.height(48.dp))
-        
-        Button(
-            onClick = onNavigateToLectura,
+
+        Spacer(modifier = Modifier.height(40.dp))
+
+        Card(
             modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = DoradoPrimario)
+            colors = CardDefaults.cardColors(containerColor = MarronTexto),
+            onClick = onNavigateToDailyQuestion
         ) {
-            Text("Lectura Diaria")
+            Column(
+                modifier = Modifier.padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Pregunta del Día",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = PergaminoFondo,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "Toca aquí para comenzar",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = PergaminoClaro
+                )
+            }
         }
-        
-        Spacer(modifier = Modifier.height(16.dp))
-        
-        Button(
-            onClick = onNavigateToJuegos,
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Card(
             modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = VerdeEsperanza)
+            colors = CardDefaults.cardColors(containerColor = PergaminoClaro)
         ) {
-            Text("Juegos")
-        }
-        
-        Spacer(modifier = Modifier.height(16.dp))
-        
-        Button(
-            onClick = onNavigateToRetos,
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = Carmesi)
-        ) {
-            Text("Retos")
-        }
-        
-        Spacer(modifier = Modifier.height(16.dp))
-        
-        Button(
-            onClick = onNavigateToProgreso,
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = DoradoOscuro)
-        ) {
-            Text("Progreso")
+            Column(
+                modifier = Modifier.padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Versículo del Día",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MarronClaro
+                )
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Text(
+                    text = "\"Porque tanto amó Dios al mundo, que dio a su Hijo unigénito, para que todo aquel que en él cree no se pierda, sino que tenga vida eterna.\"",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MarronTexto,
+                    textAlign = TextAlign.Center
+                )
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Text(
+                    text = "Juan 3:16",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = DoradoPrimario,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
 }

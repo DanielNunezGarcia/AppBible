@@ -1,13 +1,16 @@
 package com.example.appbible.presentation.juegos
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.appbible.presentation.theme.*
 
@@ -25,7 +28,7 @@ fun JuegosScreen(
                 title = { Text("🎮 Juegos Bíblicos", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -40,9 +43,12 @@ fun JuegosScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(16.dp),
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            Spacer(modifier = Modifier.height(8.dp))
+            
             Text(
                 text = "Elige un juego",
                 style = MaterialTheme.typography.headlineSmall,
@@ -51,46 +57,51 @@ fun JuegosScreen(
             
             GameCard(
                 title = "Trivia Bíblica",
-                description = "100 preguntas sobre la Biblia",
-                dificultad = "3 niveles",
+                description = "Preguntas sobre la Biblia",
                 onClick = onNavigateToTrivia
             )
             
             GameCard(
                 title = "Completa el Versículo",
-                description = "Llena los espacios faltantes",
-                dificultad = "50 versículos",
+                description = "Rellena los espacios faltantes",
                 onClick = onNavigateToFillVerse
             )
             
             GameCard(
                 title = "Memorización",
-                description = "Aprende versículos de memoria",
-                dificultad = "5 niveles",
+                description = "Aprende los versículos de memoria",
                 onClick = onNavigateToMemorize
             )
             
             Spacer(modifier = Modifier.height(16.dp))
             
             Card(
+                modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = MarronClaro.copy(alpha = 0.2f))
             ) {
                 Column(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = "🔜 Próximamente",
                         style = MaterialTheme.typography.titleMedium,
-                        color = MarronTexto
+                        color = MarronTexto,
+                        fontWeight = FontWeight.Bold
                     )
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "Ahorcado • Sopa de Letras • Emparejar",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MarronClaro
+                        color = MarronClaro,
+                        textAlign = TextAlign.Center
                     )
                 }
             }
+            
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
@@ -100,7 +111,6 @@ fun JuegosScreen(
 private fun GameCard(
     title: String,
     description: String,
-    dificultad: String,
     onClick: () -> Unit
 ) {
     Card(
@@ -121,15 +131,11 @@ private fun GameCard(
                     color = DoradoPrimario,
                     fontWeight = FontWeight.Bold
                 )
+                Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = description,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MarronTexto
-                )
-                Text(
-                    text = dificultad,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MarronClaro
                 )
             }
             Text("▶️", style = MaterialTheme.typography.headlineMedium)

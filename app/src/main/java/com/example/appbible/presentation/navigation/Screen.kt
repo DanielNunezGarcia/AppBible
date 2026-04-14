@@ -9,6 +9,7 @@ sealed class Screen(val route: String) {
     object Memorize : Screen("juegos/memorize")
     object Retos : Screen("retos")
     object Progreso : Screen("progreso")
+    object DailyQuestion : Screen("dailyquestion")
     
     companion object {
         val bottomNavRoutes = listOf(Home.route, Lectura.route, Retos.route, Progreso.route)

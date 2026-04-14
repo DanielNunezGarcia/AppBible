@@ -12,6 +12,7 @@ import com.example.appbible.presentation.juegos.memorize.MemorizeScreen
 import com.example.appbible.presentation.lectura.LecturaScreen
 import com.example.appbible.presentation.progreso.ProgresoScreen
 import com.example.appbible.presentation.retos.RetosScreen
+import com.example.appbible.presentation.dailyquestion.DailyQuestionScreen
 import com.example.appbible.presentation.navigation.Screen
 
 @Composable
@@ -25,7 +26,8 @@ fun AppNavigation(navController: NavHostController) {
                 onNavigateToLectura = { navController.navigate(Screen.Lectura.route) },
                 onNavigateToJuegos = { navController.navigate(Screen.Juegos.route) },
                 onNavigateToRetos = { navController.navigate(Screen.Retos.route) },
-                onNavigateToProgreso = { navController.navigate(Screen.Progreso.route) }
+                onNavigateToProgreso = { navController.navigate(Screen.Progreso.route) },
+                onNavigateToDailyQuestion = { navController.navigate(Screen.DailyQuestion.route) }
             )
         }
 
@@ -69,6 +71,12 @@ fun AppNavigation(navController: NavHostController) {
 
         composable(Screen.Progreso.route) {
             ProgresoScreen()
+        }
+
+        composable(Screen.DailyQuestion.route) {
+            DailyQuestionScreen(
+                onBack = { navController.popBackStack() }
+            )
         }
     }
 }
