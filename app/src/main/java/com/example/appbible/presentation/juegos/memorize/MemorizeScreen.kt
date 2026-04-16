@@ -1,20 +1,56 @@
 package com.example.appbible.presentation.juegos.memorize
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.appbible.presentation.theme.*
+import com.example.appbible.presentation.theme.Blanco
+import com.example.appbible.presentation.theme.Carmesi
+import com.example.appbible.presentation.theme.DoradoOscuro
+import com.example.appbible.presentation.theme.DoradoPrimario
+import com.example.appbible.presentation.theme.MarronClaro
+import com.example.appbible.presentation.theme.MarronTexto
+import com.example.appbible.presentation.theme.PergaminoClaro
+import com.example.appbible.presentation.theme.PergaminoFondo
+import com.example.appbible.presentation.theme.RojoFeedback
+import com.example.appbible.presentation.theme.VerdeEsperanza
+import com.example.appbible.presentation.theme.VerdeFeedback
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,7 +67,7 @@ fun MemorizeScreen(
                 title = { Text("📖 Memorización") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -46,26 +82,26 @@ fun MemorizeScreen(
             when {
                 uiState.mostrarSelectorDificultad -> {
                     SelectorDificultadMemorize(
-                        onSeleccionar = { modo ->
-                            viewModel.seleccionarDificultadYComenzar(modo)
-                        },
+                        onSeleccionar = viewModel::seleccionarDificultadYComenzar,
                         onSalir = onFinish
                     )
                 }
+
                 uiState.juegoTerminado -> {
                     PantallaResultadosMemorize(
                         score = uiState.score,
                         dificultad = uiState.dificultad,
-                        onReiniciar = { viewModel.reiniciarJuego() },
+                        onReiniciar = viewModel::reiniciarJuego,
                         onSalir = onFinish
                     )
                 }
+
                 else -> {
                     PantallaJuegoMemorize(
                         uiState = uiState,
-                        onSetRespuesta = { viewModel.setRespuesta(it) },
-                        onRevelarNivel = { viewModel.revelarSiguienteNivel() },
-                        onVerificar = { viewModel.verificarRespuesta() }
+                        onSetRespuesta = viewModel::setRespuesta,
+                        onRevelarNivel = viewModel::revelarSiguienteNivel,
+                        onVerificar = viewModel::verificarRespuesta
                     )
                 }
             }
@@ -81,10 +117,12 @@ private fun SelectorDificultadMemorize(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(16.dp))
+
         Text(
             text = "Memorización",
             style = MaterialTheme.typography.headlineMedium,
@@ -92,15 +130,16 @@ private fun SelectorDificultadMemorize(
             fontWeight = FontWeight.Bold
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
         Text(
-            text = "Aprende versículos de memoria",
+            text = "Aprende los versículos de memoria",
             style = MaterialTheme.typography.bodyMedium,
-            color = MarronClaro
+            color = MarronClaro,
+            textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         Text(
             text = "Selecciona la dificultad",
@@ -114,23 +153,33 @@ private fun SelectorDificultadMemorize(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = VerdeEsperanza.copy(alpha = 0.2f))
         ) {
-            Column(
-                modifier = Modifier.padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "🌱 Fácil",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = VerdeEsperanza,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(8.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "🌱 Fácil",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = VerdeEsperanza,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "50 pts",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MarronClaro
+                    )
+                }
                 Button(
                     onClick = { onSeleccionar(MemorizeModo.FACIL) },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = VerdeEsperanza)
+                    modifier = Modifier.width(100.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = VerdeEsperanza),
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
                 ) {
-                    Text("Jugar")
+                    Text("Jugar", style = MaterialTheme.typography.bodyMedium)
                 }
             }
         }
@@ -141,23 +190,33 @@ private fun SelectorDificultadMemorize(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = DoradoPrimario.copy(alpha = 0.2f))
         ) {
-            Column(
-                modifier = Modifier.padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "⭐ Medio",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = DoradoPrimario,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(8.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "⭐ Normal",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = DoradoPrimario,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "100 pts",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MarronClaro
+                    )
+                }
                 Button(
                     onClick = { onSeleccionar(MemorizeModo.MEDIO) },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = DoradoPrimario)
+                    modifier = Modifier.width(100.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = DoradoPrimario),
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
                 ) {
-                    Text("Jugar")
+                    Text("Jugar", style = MaterialTheme.typography.bodyMedium)
                 }
             }
         }
@@ -168,55 +227,102 @@ private fun SelectorDificultadMemorize(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = Carmesi.copy(alpha = 0.2f))
         ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "🔥 Difícil",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = Carmesi,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "150 pts",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MarronClaro
+                    )
+                }
+                Button(
+                    onClick = { onSeleccionar(MemorizeModo.DIFICIL) },
+                    modifier = Modifier.width(100.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Carmesi),
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
+                ) {
+                    Text("Jugar", style = MaterialTheme.typography.bodyMedium)
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = PergaminoClaro)
+        ) {
             Column(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "🔥 Difícil",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = Carmesi,
+                    text = "🎲 Aleatorio",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MarronTexto,
                     fontWeight = FontWeight.Bold
                 )
+                Text(
+                    text = "Mezcla todo",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MarronClaro
+                )
                 Spacer(modifier = Modifier.height(8.dp))
-                Button(
-                    onClick = { onSeleccionar(MemorizeModo.DIFICIL) },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = Carmesi)
+                OutlinedButton(
+                    onClick = { onSeleccionar(MemorizeModo.ALEATORIO) },
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Jugar")
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(16.dp))
+    }
+}
 
+@Composable
+private fun DificultadCardMemorize(
+    titulo: String,
+    color: androidx.compose.ui.graphics.Color,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = color.copy(alpha = 0.2f))
+    ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Card(
-                modifier = Modifier.weight(1f),
-                colors = CardDefaults.cardColors(containerColor = PergaminoClaro)
+            Text(
+                text = titulo,
+                style = MaterialTheme.typography.titleMedium,
+                color = color,
+                fontWeight = FontWeight.Bold
+            )
+            Button(
+                onClick = onClick,
+                colors = ButtonDefaults.buttonColors(containerColor = color)
             ) {
-                Column(
-                    modifier = Modifier.padding(12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "🎲 Aleatorio",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MarronTexto,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedButton(
-                        onClick = { onSeleccionar(MemorizeModo.ALEATORIO) },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text("Jugar")
-                    }
-                }
+                Text("Jugar")
             }
         }
     }
@@ -266,13 +372,17 @@ private fun PantallaJuegoMemorize(
             colors = CardDefaults.cardColors(containerColor = PergaminoClaro)
         ) {
             Column(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text = uiState.referencia,
                     style = MaterialTheme.typography.titleMedium,
-                    color = Carmesi
+                    color = Carmesi,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -291,18 +401,28 @@ private fun PantallaJuegoMemorize(
             Spacer(modifier = Modifier.height(16.dp))
 
             Card(
+                modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = VerdeEsperanza.copy(alpha = 0.1f))
             ) {
-                Column(modifier = Modifier.padding(12.dp)) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     Text(
                         text = "Pistas reveladas:",
                         style = MaterialTheme.typography.bodySmall,
-                        color = VerdeEsperanza
+                        color = VerdeEsperanza,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
                     Text(
                         text = uiState.palabrasReveladas.joinToString(", "),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MarronTexto
+                        color = MarronTexto,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
             }
@@ -339,43 +459,96 @@ private fun PantallaJuegoMemorize(
             onClick = onVerificar,
             modifier = Modifier.fillMaxWidth(),
             enabled = !uiState.mostrarFeedback && uiState.respuestaUsuario.isNotBlank(),
-            colors = ButtonDefaults.buttonColors(containerColor = DoradoPrimario)
+            colors = ButtonDefaults.buttonColors(
+                containerColor = if (uiState.mostrarFeedback) {
+                    if (uiState.respuestaCorrecta) VerdeFeedback else RojoFeedback
+                } else {
+                    DoradoPrimario
+                }
+            )
         ) {
-            Text("✅ Verificar")
+            Text(
+                text = if (uiState.mostrarFeedback) {
+                    if (uiState.respuestaCorrecta) "✅ ¡Correcto!" else "❌ Incorrecto"
+                } else {
+                    "✅ Verificar"
+                },
+                color = Blanco
+            )
         }
 
         if (uiState.mostrarFeedback) {
             Spacer(modifier = Modifier.height(24.dp))
-            
+
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
-                    containerColor = if (uiState.respuestaCorrecta) VerdeEsperanza.copy(alpha = 0.1f) else Carmesi.copy(alpha = 0.1f)
+                    containerColor = if (uiState.respuestaCorrecta) {
+                        VerdeFeedback.copy(alpha = 0.15f)
+                    } else {
+                        RojoFeedback.copy(alpha = 0.15f)
+                    }
                 )
             ) {
                 Column(
-                    modifier = Modifier.padding(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = if (uiState.respuestaCorrecta) "✅ ¡Excelente! ¡Memorizado!" else "❌ Intenta de nuevo",
                         style = MaterialTheme.typography.titleLarge,
-                        color = if (uiState.respuestaCorrecta) VerdeEsperanza else Carmesi,
+                        color = if (uiState.respuestaCorrecta) VerdeFeedback else RojoFeedback,
                         fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
-                    
+
                     Spacer(modifier = Modifier.height(12.dp))
-                    
+
                     Text(
-                        text = if (uiState.respuestaCorrecta) 
-                            "¡Continúa memorizando más versículos!" 
-                        else 
-                            "Sigue practicando, ¡tú puedes!",
+                        text = if (uiState.respuestaCorrecta) {
+                            "¡Muy bien! Continúa así."
+                        } else {
+                            "Sigue intentando, ¡tú puedes!"
+                        },
                         style = MaterialTheme.typography.bodyMedium,
                         color = MarronTexto,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(containerColor = PergaminoClaro)
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = uiState.referencia,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = DoradoPrimario,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = uiState.versiculoActual,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MarronTexto,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -385,7 +558,9 @@ private fun PantallaJuegoMemorize(
         Text(
             text = "Puntos: ${uiState.score}",
             style = MaterialTheme.typography.titleMedium,
-            color = DoradoPrimario
+            color = DoradoPrimario,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
@@ -458,15 +633,16 @@ private fun construirVersiculoOculto(texto: String, pistas: List<String>): Strin
     if (pistas.isEmpty()) {
         return texto.map { if (it.isLetter()) '_' else it }.joinToString("")
     }
-    
+
     val palabras = texto.split(" ")
     val pistasLower = pistas.map { it.lowercase() }
-    
+
     return palabras.map { palabra ->
         val palabraLimpia = palabra.lowercase().replace(Regex("[^a-záéíóúüñ]"), "")
-        if (pistasLower.any { pista -> 
-            palabraLimpia.contains(pista) || pista.contains(palabraLimpia)
-        }) {
+        if (pistasLower.any { pista ->
+                palabraLimpia.contains(pista) || pista.contains(palabraLimpia)
+            }
+        ) {
             palabra
         } else {
             "_".repeat(palabra.length)

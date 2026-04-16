@@ -2,9 +2,10 @@ package com.example.appbible.presentation.juegos.fillverse
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
@@ -16,6 +17,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.appbible.presentation.theme.*
+import com.example.appbible.presentation.theme.RojoFeedback
+import com.example.appbible.presentation.theme.VerdeFeedback
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,7 +35,7 @@ fun FillVerseScreen(
                 title = { Text("📝 Completa el Versículo") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -80,10 +83,12 @@ private fun SelectorDificultadFillVerse(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(16.dp))
+
         Text(
             text = "Completa el Versículo",
             style = MaterialTheme.typography.headlineMedium,
@@ -91,7 +96,7 @@ private fun SelectorDificultadFillVerse(
             fontWeight = FontWeight.Bold
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
         Text(
             text = "50 versículos bíblicos",
@@ -99,7 +104,7 @@ private fun SelectorDificultadFillVerse(
             color = MarronClaro
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         Text(
             text = "Selecciona la dificultad",
@@ -113,23 +118,33 @@ private fun SelectorDificultadFillVerse(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = VerdeEsperanza.copy(alpha = 0.2f))
         ) {
-            Column(
-                modifier = Modifier.padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "🌱 Fácil",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = VerdeEsperanza,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(8.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "🌱 Fácil",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = VerdeEsperanza,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "50 pts",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MarronClaro
+                    )
+                }
                 Button(
                     onClick = { onSeleccionar(FillVerseModo.FACIL) },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = VerdeEsperanza)
+                    modifier = Modifier.width(100.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = VerdeEsperanza),
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
                 ) {
-                    Text("Jugar")
+                    Text("Jugar", style = MaterialTheme.typography.bodyMedium)
                 }
             }
         }
@@ -140,23 +155,33 @@ private fun SelectorDificultadFillVerse(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = DoradoPrimario.copy(alpha = 0.2f))
         ) {
-            Column(
-                modifier = Modifier.padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "⭐ Medio",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = DoradoPrimario,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(8.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "⭐ Normal",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = DoradoPrimario,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "100 pts",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MarronClaro
+                    )
+                }
                 Button(
                     onClick = { onSeleccionar(FillVerseModo.MEDIO) },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = DoradoPrimario)
+                    modifier = Modifier.width(100.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = DoradoPrimario),
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
                 ) {
-                    Text("Jugar")
+                    Text("Jugar", style = MaterialTheme.typography.bodyMedium)
                 }
             }
         }
@@ -167,28 +192,38 @@ private fun SelectorDificultadFillVerse(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = Carmesi.copy(alpha = 0.2f))
         ) {
-            Column(
-                modifier = Modifier.padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "🔥 Difícil",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = Carmesi,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(8.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "🔥 Difícil",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = Carmesi,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "150 pts",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MarronClaro
+                    )
+                }
                 Button(
                     onClick = { onSeleccionar(FillVerseModo.DIFICIL) },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = Carmesi)
+                    modifier = Modifier.width(100.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Carmesi),
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
                 ) {
-                    Text("Jugar")
+                    Text("Jugar", style = MaterialTheme.typography.bodyMedium)
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -204,9 +239,14 @@ private fun SelectorDificultadFillVerse(
                 ) {
                     Text(
                         text = "🎲 Aleatorio",
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MaterialTheme.typography.titleSmall,
                         color = MarronTexto,
                         fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "Mezcla todo",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MarronClaro
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     OutlinedButton(
@@ -291,7 +331,8 @@ private fun PantallaJuegoFillVerse(
                     text = uiState.versiculoActual,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MarronTexto,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
@@ -307,13 +348,23 @@ private fun PantallaJuegoFillVerse(
         Spacer(modifier = Modifier.height(8.dp))
 
         uiState.opciones.forEach { opcion ->
+            val esSeleccionada = opcion == uiState.respuestaUsuario
+            val esCorrecta = opcion == uiState.respuestaCorrectaTexto
+            
             val colorFondo = when {
-                uiState.mostrarFeedback && opcion == uiState.respuestaUsuario && uiState.respuestaCorrecta -> VerdeEsperanza.copy(alpha = 0.3f)
-                uiState.mostrarFeedback && opcion == uiState.respuestaUsuario && !uiState.respuestaCorrecta -> Carmesi.copy(alpha = 0.3f)
+                uiState.mostrarFeedback && esCorrecta -> VerdeFeedback
+                uiState.mostrarFeedback && esSeleccionada && !uiState.respuestaCorrecta -> RojoFeedback
+                esSeleccionada && !uiState.mostrarFeedback -> MarronClaro.copy(alpha = 0.3f)
                 else -> PergaminoClaro
             }
 
-            OutlinedButton(
+            val colorTexto = when {
+                // Texto blanco sobre fondos oscuros
+                uiState.mostrarFeedback && (esCorrecta || (esSeleccionada && !uiState.respuestaCorrecta)) -> Blanco
+                else -> MarronTexto
+            }
+
+            Surface(
                 onClick = {
                     if (!uiState.mostrarFeedback) {
                         onSeleccionarOpcion(opcion)
@@ -322,13 +373,14 @@ private fun PantallaJuegoFillVerse(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 4.dp),
-                enabled = !uiState.mostrarFeedback,
-                colors = ButtonDefaults.outlinedButtonColors(containerColor = colorFondo)
+                shape = RoundedCornerShape(12.dp),
+                color = colorFondo,
+                contentColor = colorTexto
             ) {
                 Text(
                     text = opcion,
-                    color = MarronTexto,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
+                    color = colorTexto,
                     textAlign = TextAlign.Center
                 )
             }
@@ -340,18 +392,26 @@ private fun PantallaJuegoFillVerse(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
-                    containerColor = if (uiState.respuestaCorrecta) VerdeEsperanza.copy(alpha = 0.1f) else Carmesi.copy(alpha = 0.1f)
+                    containerColor = if (uiState.respuestaCorrecta) {
+                        VerdeFeedback.copy(alpha = 0.15f)
+                    } else {
+                        RojoFeedback.copy(alpha = 0.15f)
+                    }
                 )
             ) {
                 Column(
-                    modifier = Modifier.padding(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = if (uiState.respuestaCorrecta) "✅ ¡Correcto!" else "❌ Incorrecto",
                         style = MaterialTheme.typography.titleLarge,
-                        color = if (uiState.respuestaCorrecta) VerdeEsperanza else Carmesi,
-                        fontWeight = FontWeight.Bold
+                        color = if (uiState.respuestaCorrecta) VerdeFeedback else RojoFeedback,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
                     
                     Spacer(modifier = Modifier.height(12.dp))
@@ -363,8 +423,40 @@ private fun PantallaJuegoFillVerse(
                             "Sigue intentando, ¡tú puedes!",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MarronTexto,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(containerColor = PergaminoClaro)
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = uiState.referencia,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = DoradoPrimario,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = "Respuesta correcta: ${uiState.respuestaCorrectaTexto}",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MarronTexto,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                    }
                 }
             }
         }

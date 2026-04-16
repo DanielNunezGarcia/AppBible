@@ -12,7 +12,9 @@ val MarronTexto = Color(0xFF5C4033)
 val MarronClaro = Color(0xFF8B7355)
 val Carmesi = Color(0xFF8B0000)
 val VerdeEsperanza = Color(0xFF2E7D32)
-val VerdeClaro = Color(0xFF4CAF50)
+val VerdeClaro = Color(0xFF00C853)
+val VerdeFeedback = Color(0xFF4CAF50)
+val RojoFeedback = Color(0xFFF44336)
 
 // Dark Mode Colors
 val PergaminoOscuro = Color(0xFF2C1810)

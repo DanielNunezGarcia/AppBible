@@ -3,8 +3,11 @@ package com.example.appbible.presentation.juegos.trivia
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Button
+import androidx.compose.material3.Surface
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -12,6 +15,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -175,7 +179,7 @@ private fun SelectorDificultad(
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "⭐ Medio",
+                        text = "⭐ Normal",
                         style = MaterialTheme.typography.titleSmall,
                         color = DoradoPrimario,
                         fontWeight = FontWeight.Bold
@@ -362,37 +366,31 @@ private fun PantallaPregunta(
             val esCorrecta = indice == pregunta.correctIndex
             
             val colorFondo = when {
-                // Cuando se muestra feedback, la respuesta correcta siempre se muestra en verde
-                mostrarFeedback && esCorrecta -> VerdeEsperanza.copy(alpha = 0.8f)
-                // La opción que el usuario eligió se marca:
-                // - Verde si acertó (también es correcta)
-                // - Rojo si falló (no es correcta)
-                mostrarFeedback && esSeleccionada -> if (respuestaCorrecta) VerdeEsperanza.copy(alpha = 0.8f) else Carmesi.copy(alpha = 0.8f)
-                // Antes de responder, solo marca la selección actual en gris claro
-                esSeleccionada -> MarronClaro.copy(alpha = 0.4f)
+                mostrarFeedback && esCorrecta -> VerdeFeedback
+                mostrarFeedback && esSeleccionada && !respuestaCorrecta -> RojoFeedback
+                esSeleccionada && !mostrarFeedback -> MarronClaro.copy(alpha = 0.3f)
                 else -> PergaminoClaro
             }
-            
+
             val colorTexto = when {
+                // Texto blanco sobre fondos oscuros (verde/rojo)
                 mostrarFeedback && (esCorrecta || (esSeleccionada && !respuestaCorrecta)) -> Blanco
                 else -> MarronTexto
             }
-            
-            OutlinedButton(
-                onClick = { onSeleccionarRespuesta(indice) },
+
+            Surface(
+                onClick = { if (!mostrarFeedback) onSeleccionarRespuesta(indice) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 4.dp),
-                enabled = !mostrarFeedback,
-                colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = colorFondo,
-                    contentColor = colorTexto
-                )
+                shape = RoundedCornerShape(12.dp),
+                color = colorFondo,
+                contentColor = colorTexto
             ) {
                 Text(
                     text = opcion,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
                     color = colorTexto,
-                    modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Start
                 )
             }
@@ -404,18 +402,26 @@ private fun PantallaPregunta(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
-                    containerColor = if (respuestaCorrecta) VerdeEsperanza.copy(alpha = 0.1f) else Carmesi.copy(alpha = 0.1f)
+                    containerColor = if (respuestaCorrecta) {
+                        VerdeFeedback.copy(alpha = 0.15f)
+                    } else {
+                        RojoFeedback.copy(alpha = 0.15f)
+                    }
                 )
             ) {
                 Column(
-                    modifier = Modifier.padding(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = if (respuestaCorrecta) "✅ ¡Correcto!" else "❌ Incorrecto",
                         style = MaterialTheme.typography.titleLarge,
-                        color = if (respuestaCorrecta) VerdeEsperanza else Carmesi,
-                        fontWeight = FontWeight.Bold
+                        color = if (respuestaCorrecta) VerdeFeedback else RojoFeedback,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
                     
                     Spacer(modifier = Modifier.height(12.dp))
@@ -424,7 +430,8 @@ private fun PantallaPregunta(
                         text = pregunta.explanation,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MarronTexto,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
                     
                     Spacer(modifier = Modifier.height(8.dp))
