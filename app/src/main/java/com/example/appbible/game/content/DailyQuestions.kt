@@ -13,12 +13,12 @@ fun getDailyQuestions(): List<DailyQuestion> {
     return listOf(
         DailyQuestion(
             id = 1,
-            question = "¿Por qué es importante leer la Biblia?",
-            correctAnswer = "Es la Palabra de Dios y nos guía en la vida",
+            question = "¿Por qué es importante leer la Biblia diariamente?",
+            correctAnswer = "Porque es la Palabra de Dios que nos guía, corrige y enseña a vivir según Su voluntad",
             options = listOf(
-                "Es la Palabra de Dios y nos guía en la vida",
-                "Es un libro de historia antigua",
-                "Es solo para religiosos"
+                "Porque es la Palabra de Dios que nos guía, corrige y enseña a vivir según Su voluntad",
+                "Es simplemente un libro de historia antigua que contiene escritos religiosos",
+                "Es una obligación religiosa más para sentir piedad sin verdadera devoción"
             ),
             explanation = "La Biblia nos guía, nos corrige y nos enseña a vivir según la voluntad de Dios.",
             relatedVerses = listOf(
@@ -29,108 +29,108 @@ fun getDailyQuestions(): List<DailyQuestion> {
         ),
         DailyQuestion(
             id = 2,
-            question = "¿Qué significa que Jesús es el Hijo de Dios?",
-            correctAnswer = "Que es Dios mismo encarnado en forma humana",
+            question = "¿Qué significa realmente que Jesús es el Hijo de Dios?",
+            correctAnswer = "Que es Dios mismo encarnado en forma humana, venido a la tierra para salvarnos",
             options = listOf(
-                "Que es Dios mismo encarnado en forma humana",
-                "Que es un profeta especial",
-                "Que es un buen maestro"
+                "Que es Dios mismo encarnado en forma humana, venido a la tierra para salvarnos",
+                "Que Jesús era solo un profeta especial con enseñanzas significativas",
+                "Que era simplemente un buen maestro moral con enseigne"
             ),
             explanation = "Jesús es Dios hecho carne, venido a la tierra para salvarnos de nuestros pecados.",
             relatedVerses = listOf(
                 "Juan 1:1 - 'En el principio era el Verbo, y el Verbo era con Dios, y el Verbo era Dios.'",
-                "Juan 3:16 - 'Porque tanto amó Dios al mundo, que dio a su Hijo unigénito, para que todo aquel que en él cree no se pierda, sino que tenga vida eterna.'",
+                "Juan 3:16 - 'Porque tanto amó Dios al mundo, que dio a su Hijo unigénito, para que todo aquel que en él cree no se pierda.'",
                 "Colosenses 1:15 - 'El cual es imagen del Dios invisible, primogénito de toda creación.'"
             )
         ),
         DailyQuestion(
             id = 3,
-            question = "¿Cuál es el mandamiento más grande?",
-            correctAnswer = "Amar a Dios y al prójimo como a uno mismo",
+            question = "¿Cuál es el mandamiento más importante de todos?",
+            correctAnswer = "Amar a Dios con todo el corazón, alma y mente, y amar al prójimo como a uno mismo",
             options = listOf(
-                "Amar a Dios y al prójimo como a uno mismo",
-                "Guardar los diez mandamientos",
-                "Ir a la iglesia cada semana"
+                "Amar a Dios con todo el corazón, alma y mente, y amar al prójimo como a uno mismo",
+                "Guardar los diez mandamientos perfectamente sin fallar en ninguno",
+                "Ir a la iglesia cada semana y asistir a todos los servicios"
             ),
             explanation = "El amor es la base de toda la ley y los profetas.",
             relatedVerses = listOf(
-                "Mateo 22:37-39 - 'Amarás al Señor tu Dios con todo tu corazón, y con toda tu alma, y con toda tu mente. Este es el primero y grande mandamiento. Y el segundo es semejante: Amarás a tu prójimo como a ti mismo.'",
+                "Mateo 22:37-39 - 'Amarás al Señor tu Dios con todo tu corazón, y con toda tu alma, y con toda tu mente.'",
                 "1 Juan 4:8 - 'El que no ama no ha conocido a Dios; porque Dios es amor.'",
                 "1 Corintios 13:13 - 'Y ahora permanecen la fe, la esperanza y el amor, estos tres; pero el mayor de ellos es el amor.'"
             )
         ),
         DailyQuestion(
             id = 4,
-            question = "¿Qué debemos hacer para ser salvos?",
-            correctAnswer = "Creer en Jesús, arrepentirnos y seguirle",
+            question = "¿Qué debemos hacer exactamente para recibir la salvación eterna?",
+            correctAnswer = "Creer en Jesús como Señor y Salvador, arrepentirnos de nuestros pecado y seguirle",
             options = listOf(
-                "Creer en Jesús, arrepentirnos y seguirle",
-                "Ser buena persona",
-                "Hacer muchas obras buenas"
+                "Creer en Jesús como Señor y Salvador, arrepentirnos de nuestros pecado y seguirle",
+                "Simplemente ser una buena persona y hacer obras de altruismo",
+                "Hacer muchas obras buenas y donaciones a la iglesia"
             ),
             explanation = "La salvación es por gracia, mediante la fe en Jesucristo.",
             relatedVerses = listOf(
-                "Hechos 4:12 - 'Y en ningún otro hay salvación; porque no hay otro nombre bajo el cielo, dado a los hombres, en que podamos ser salvos.'",
+                "Hechos 4:12 - 'Y en ningún otro hay salvación; porque no hay otro nombre bajo el cielo, dado a los hombres.'",
                 "Romanos 10:9 - 'Que si confesares con tu boca que Jesús es el Señor, y creyeres en tu corazón que Dios le levantó de los muertos, serás salvo.'",
                 "Juan 14:6 - 'Jesús le dijo: Yo soy el camino, la verdad, y la vida; nadie viene al Padre, sino por mí.'"
             )
         ),
         DailyQuestion(
             id = 5,
-            question = "¿Cómo podemos conocer la voluntad de Dios?",
-            correctAnswer = "A través de la oración, la Biblia y el Espíritu Santo",
+            question = "¿Cómo podemos realmente conocer la voluntad perfecta de Dios para nuestras vidas?",
+            correctAnswer = "A través de la oración constante, estudiando la Biblia y escuchando al Espíritu Santo",
             options = listOf(
-                "A través de la oración, la Biblia y el Espíritu Santo",
-                "Pidiendo señales milagrosas",
-                "Consultando a otras personas"
+                "A través de la oración constante, estudiando la Biblia y escuchando al Espíritu Santo",
+                "Pidiendo señales milagrosas y visiones especiales para confirmar",
+                "Consultando a otros creyentes y siguiendo sus consejos"
             ),
             explanation = "Dios quiere revelarnos Su voluntad cuando le buscamos sinceramente.",
             relatedVerses = listOf(
-                "Proverbios 3:5-6 - 'Fíate de Jehová con todo tu corazón, y no te apoyes en tu propia inteligencia. Reconócelo en todos tus caminos, y él enderezará tus veredas.'",
-                "Santiago 1:5 - 'Y si alguno de vosotros carece de sabiduría, pídala a Dios, quien da a todos liberalmente y sin reproche, y le será dada.'",
-                "Romanos 12:2 - 'No os conforméis a este siglo, sino transformaos por medio de la renovación de vuestro entendimiento, para que comprobéis cuál sea la buena voluntad de Dios, agradable y perfecta.'"
+                "Proverbios 3:5-6 - 'Fíate de Jehovah con todo tu corazón, y no te apoyes en tu propia inteligencia.'",
+                "Santiago 1:5 - 'Y si alguno de vosotros carece de sabiduría, pídala a Dios, quien da a todos liberalmente.'",
+                "Romanos 12:2 - 'No os conforméis a este siglo, sino transformaos por medio de la renovación de vuesntendimiento.'"
             )
         ),
         DailyQuestion(
             id = 6,
-            question = "¿Qué es el Espíritu Santo?",
-            correctAnswer = "Es Dios, la tercera persona de la Trinidad",
+            question = "¿Qué es exactamente el Espíritu Santo y cuál es Su personalidad divina?",
+            correctAnswer = "Es la tercera persona de la Trinidad, Dios mismo que mora en nosotros como Consolador",
             options = listOf(
-                "Es Dios, la tercera persona de la Trinidad",
-                "Es una fuerza espiritual",
-                "Es un ángel especial"
+                "Es la tercera persona de la Trinidad, Dios mismo que mora en nosotros como Consolador",
+                "Es simplemente una fuerza espiritual sin personalidad real",
+                "Es solo un ángel especial enviado por Dios para asistirnos"
             ),
             explanation = "El Espíritu Santo nos guía, nos consuela y nos da poder para vivir como cristianos.",
             relatedVerses = listOf(
-                "Juan 14:26 - 'Mas el Consolador, el Espíritu Santo, a quien el Padre enviará en mi nombre, él os enseñará todas las cosas, y os recordará todo lo que yo os he dicho.'",
-                "Hechos 5:3-4 - '¿Por qué ha llenado Satanás tu corazón para que mintieses al Espíritu Santo?... No has mentido a los hombres, sino a Dios.'",
-                "1 Corintios 6:19 - '¿O no sabéis que vuestro cuerpo es templo del Espíritu Santo, el cual está en vosotros?'"
+                "Juan 14:26 - 'Mas el Consolador, el Espíritu Santo, a quien el Padre enviará en mi nombre, él os enseñará todas las cosas.'",
+                "Hechos 5:3-4 - '¿Por qué ha llenado Satanás tu corazón para que mintieses al Espírito Santo?'",
+                "1 Corintios 6:19 - '¿O no sabéis que vuestro cuerpo es templo del Espíritu Santo?'"
             )
         ),
         DailyQuestion(
             id = 7,
-            question = "¿Por qué murió Jesús en la cruz?",
-            correctAnswer = "Para pagar el precio por nuestros pecados",
+            question = "¿Por qué exactamente murió Jesús en la cruz por nosotros?",
+            correctAnswer = "Para pagar el precio completo por nuestros pecado y ofrecernos redención eterna",
             options = listOf(
-                "Para pagar el precio por nuestros pecados",
-                "Porque fue injustamente condenado",
-                "Para darnos un ejemplo de sacrificio"
+                "Para pagar el precio completo por nuestros pecado y ofrecernos redención eterna",
+                "Porque fue injustamente condenado por las autoridades religiosas",
+                "Para给我们 un ejemplo perfecto de sacrificio y servicio"
             ),
             explanation = "La muerte de Jesús en la cruz fue un acto de amor supremo para nuestra redención.",
             relatedVerses = listOf(
-                "Isaías 53:5 - 'Ciertamente él llevó nuestras enfermedades, y cargó con nuestros dolores... y por su llaga fuimos nosotros curados.'",
+                "Isaías 53:5 - 'Ciertamente él llevó nuestras enfermedades, y cargó con nuestros dolores.'",
                 "Romanos 5:8 - 'Mas Dios muestra su amor hacia nosotros, en que siendo aún pecadores, Cristo murió por nosotros.'",
-                "1 Pedro 2:24 - 'El mismo llevó nuestros pecados en su cuerpo sobre el madero, para que nosotros, estando muertos a los pecados, vivamos para la justicia.'"
+                "1 Pedro 2:24 - 'El mismo llevó nuestros pecados en su cuerpo sobre el madero.'"
             )
         ),
         DailyQuestion(
             id = 8,
-            question = "¿Qué significa la resurrección de Jesús?",
-            correctAnswer = "Que venció la muerte y nos da vida eterna",
+            question = "¿Qué significa realmente la resurrección de Jesús para nosotros los creyentes?",
+            correctAnswer = "Que venció la muerte completamente y nos garantiza vida eterna con Dios",
             options = listOf(
-                "Que venció la muerte y nos da vida eterna",
-                "Que su espíritu vive en nosotros",
-                "Que sus enseñanzas continúan"
+                "Que venció la muerte completamente y nos garantiza vida eterna con Dios",
+                "Que su espíritu simplemente vive dentro de nosotros los creyentes",
+                "Que sus enseñanzasy moral continúan influyendo en la sociedad"
             ),
             explanation = "La resurrección es la prueba de que Jesús es el Hijo de Dios y de nuestra salvación.",
             relatedVerses = listOf(
@@ -141,28 +141,28 @@ fun getDailyQuestions(): List<DailyQuestion> {
         ),
         DailyQuestion(
             id = 9,
-            question = "¿Cómo debemos orar?",
-            correctAnswer = "Con fe, humildad y según la voluntad de Dios",
+            question = "¿Cómo debemos orar efectivamente según las enseñanzas bíblicas?",
+            correctAnswer = "Con fe verdadera, humildad profunda y siempre según la voluntad perfecta de Dios",
             options = listOf(
-                "Con fe, humildad y según la voluntad de Dios",
-                "Usando palabras elegantes",
-                "Solo en la iglesia"
+                "Con fe verdadera, humildad profunda y siempre según la voluntad perfecta de Dios",
+                "Usando palabras elegantes y rituales elaboradas para impresionar",
+                "Solo en la iglesia y en servicios formales especiales"
             ),
             explanation = "La oración es nuestra comunicación con Dios, quien escucha y responde nuestras peticiones.",
             relatedVerses = listOf(
                 "Mateo 6:9-13 - 'Padre nuestro que estás en los cielos, santificado sea tu nombre...'",
-                "Filipenses 4:6 - 'Por nada estéis afanosos, sino sean hechas saber vuestras peticiones ante Dios en toda oración y súplica, con acción de gracias.'",
-                "Santiago 1:6 - 'Pero pida con fe, no dudando nada; porque el que duda es semejante a la onda del mar.'"
+                "Filipenses 4:6 - 'Por nada estéis afanosos, sino sean hechas saber vuestras peticiones ante Dios en toda oración y súplica.'",
+                "Santiago 1:6 - 'Pero pida con fe, no dudando nada; porque el que duda es semelhante a la onda del mar.'"
             )
         ),
         DailyQuestion(
             id = 10,
-            question = "¿Qué significa ser hijo de Dios?",
-            correctAnswer = "Tener relación personal con Dios y ser heredero",
+            question = "¿Qué significa verdaderamente ser hijo de Dios según la Biblia?",
+            correctAnswer = "Tener una relación personal íntima con Dios como nuestro Padre celestial y ser herederos",
             options = listOf(
-                "Tener relación personal con Dios y ser heredero",
-                "Ser bautizado",
-                "Ir a la iglesia"
+                "Tener una relación personal íntima con Dios como nuestro Padre celestial y ser herederos",
+                "Simplemente haber sido bautizado en la iglesia particular",
+                "Asistir regularmente a la iglesia y participar en su actividad"
             ),
             explanation = "Cuando aceptamos a Jesús, recibimos el derecho de llamar a Dios 'Padre'.",
             relatedVerses = listOf(
@@ -173,12 +173,12 @@ fun getDailyQuestions(): List<DailyQuestion> {
         ),
         DailyQuestion(
             id = 11,
-            question = "¿Qué nos enseña la creación?",
-            correctAnswer = "Que Dios creó todo con propósito y a Su imagen",
+            question = "¿Qué nos enseña la creación del universo sobre Dios y nosotros como humanos?",
+            correctAnswer = "Que Dios creó todo intencionalmente con propósito y que estamos hechos a imagen divina",
             options = listOf(
-                "Que Dios creó todo con propósito y a Su imagen",
-                "Que el mundo es casualidad",
-                "Que evolucionamos"
+                "Que Dios creó todo intencionalmente con propósito y que estamos hechos a imagen divina",
+                "Que el universo es simplemente resultado del azar puro",
+                "Que los seres humanos evolucionaron gradualmente de especies inferiores"
             ),
             explanation = "Somos creados con un propósito divino y tenemos valor incalculable ante Dios.",
             relatedVerses = listOf(
@@ -189,44 +189,44 @@ fun getDailyQuestions(): List<DailyQuestion> {
         ),
         DailyQuestion(
             id = 12,
-            question = "¿Qué es una alianza bíblica?",
-            correctAnswer = "Un pacto entre Dios y Su pueblo",
+            question = "¿Qué es exactamente una alianza bíblicca entre Dios y los humanos?",
+            correctAnswer = "Un pacto sagrado donde Dios promete bendiciones y nosotros nos comprometemos a obedecerle",
             options = listOf(
-                "Un pacto entre Dios y Su pueblo",
-                "Un acuerdo entre personas",
-                "Una promesa cualquiera"
+                "Un pacto sagrado donde Dios promete bendiciones y nosotros nos comprometemos a obedecerle",
+                "Simplemente un acuerdo formal entre dos partes interesadas",
+                "Es solo una promesa general sin consecuencias específicas"
             ),
             explanation = "Dios establece alianzas con nosotros por amor y fidelidad.",
             relatedVerses = listOf(
-                "Génesis 9:9 - 'He aquí yo establezco mi alianza con vosotros... y con todo lo que vive con vosotros.'",
-                "Jeremías 31:33 - 'Este es el pacto que haré con la casa de Israel después de aquellos días, dice Jehová: Daré mi ley en su mente, y la escribiré en su corazón.'",
+                "Génesis 9:9 - 'He aquí yo establezco mi alianza con vosotros y con toda vuestra descendencia.'",
+                "Jeremías 31:33 - 'Este es el pacto que haré con la casa de Israel después de aquellos días, dice Jehovah.'",
                 "Lucas 22:20 - 'Esta copa es el nuevo pacto en mi sangre, que por vosotros se derrama.'"
             )
         ),
         DailyQuestion(
             id = 13,
-            question = "¿Por qué es importante la iglesia?",
-            correctAnswer = "Es el cuerpo de Cristo donde crecemos juntos",
+            question = "¿Por qué es importante la iglesia local en nuestra vida espiritual?",
+            correctAnswer = "Es el cuerpo de Cristo donde crecemos juntos en fe, amor y propósito común",
             options = listOf(
-                "Es el cuerpo de Cristo donde crecemos juntos",
-                "Es un edificio religioso",
-                "Es una organización social"
+                "Es el cuerpo de Cristo donde crecemos juntos en fe, amor y propósito común",
+                "Es simplemente un edificio religioso donde nos reunimos",
+                "Es solo una organización social para hacer contactos útiles"
             ),
             explanation = "La iglesia es comunidad de fe donde compartimos el amor de Cristo.",
             relatedVerses = listOf(
                 "Hechos 2:47 - 'Y el Señor añadía cada día a la iglesia los que habían de ser salvos.'",
                 "Efesios 4:12 - 'A fin de perfeccionar a los santos para la obra del ministerio, para la edificación del cuerpo de Cristo.'",
-                "Hebreos 10:24-25 - 'Consideremos los unos a los otros para estimularnos al amor y a las buenas obras, no dejando de congregarnos...'"
+                "Hebreos 10:24-25 - 'Consideremos los unos a los otros para estimularnos al amor y a las buenas obras.'"
             )
         ),
         DailyQuestion(
             id = 14,
-            question = "¿Qué nos enseña el Salmo 23?",
-            correctAnswer = "Que Dios es nuestro pastor que nos guía y protege",
+            question = "¿Qué nos enseña específicamente el Salmo 23 sobre Dios?",
+            correctAnswer = "Que Dios es nuestro buen pastor que nos guía, protege y provee en todo momento",
             options = listOf(
-                "Que Dios es nuestro pastor que nos guía y protege",
-                "Que los pastores cuidan ovejas",
-                "Que debemos ser humildes"
+                "Que Dios es nuestro buen pastor que nos guía, protege y provee en todo momento",
+                "Que los pastores del campo tienen una vida especial con las ovejas",
+                "Que debemos ser humildes y obedecer siempre a las autoridades"
             ),
             explanation = "En Dios encontramos refugio, guía y provisión en todo momento de la vida.",
             relatedVerses = listOf(
@@ -237,12 +237,12 @@ fun getDailyQuestions(): List<DailyQuestion> {
         ),
         DailyQuestion(
             id = 15,
-            question = "¿Qué significa 'arrepentirse'?",
-            correctAnswer = "Cambiar de mentalidad y dejar el pecado",
+            question = "¿Qué significa verdaderamente arrepentirse según las enseñanza bíblicas?",
+            correctAnswer = "Cambiar genuinamente de mentalidad, confesar nuestros pecado y abandonar el pecado",
             options = listOf(
-                "Cambiar de mentalidad y dejar el pecado",
-                "Sentir tristeza",
-                "Pedir perdón"
+                "Cambiar genuinamente de mentalidad, confesar nuestros pecado y abandonar el pecado",
+                "Sentir tristeza temporal por nuestras acciones pasadas",
+                "Simplemente pedir perdón sin cambiar nuestro comportamiento real"
             ),
             explanation = "El arrepentimiento es el primer paso para una vida nueva en Cristo.",
             relatedVerses = listOf(
@@ -253,28 +253,28 @@ fun getDailyQuestions(): List<DailyQuestion> {
         ),
         DailyQuestion(
             id = 16,
-            question = "¿Cuál es el propósito de los mandamientos?",
-            correctAnswer = "Guiarnos para amar a Dios y al prójimo",
+            question = "¿Cuál es el verdadero propósito de los mandamientos divinos?",
+            correctAnswer = "Guiarnos para amar genuinamente a Dios y mostrar amor al prójimo",
             options = listOf(
-                "Guiarnos para amar a Dios y al prójimo",
-                "Restringir nuestra libertad",
-                "Mostrarnos lo que no podemos hacer"
+                "Guiarnos para amar genuinamente a Dios y mostrar amor al prójimo",
+                "Simplemente restringir nuestra libertad y controlar nuestro comportamiento",
+                "Mostranos exactamente lo que no podemos hacer bajo ninguna circunstancia"
             ),
             explanation = "Los mandamientos revelan la voluntad de Dios para una vida llena de propósito.",
             relatedVerses = listOf(
                 "Éxodo 20:3-17 - 'No tendrás otros dioses delante de mí...'",
-                "Deuteronomio 6:5 - 'Amarás a Jehová tu Dios con todo tu corazón, y con toda tu alma, y con toda tu fuerza.'",
+                "Deuteronomio 6:5 - 'Amarás a Jehovah tu Dios con todo tu corazón, y con toda tu alma, y con toda tu fuerza.'",
                 "Santiago 2:8 - 'Amarás a tu prójimo como a ti mismo, bien hacéis.'"
             )
         ),
         DailyQuestion(
             id = 17,
-            question = "¿Qué nos enseña el hijo pródigo?",
-            correctAnswer = "Que Dios nos recibe con amor al arrepentirnos",
+            question = "¿Qué nos enseña específicamente la parábola del hijo pródigo?",
+            correctAnswer = "Que Dios nos recibe siempre con amor incondicional cuando nos arrepentimos sinceramente",
             options = listOf(
-                "Que Dios nos recibe con amor al arrepentirnos",
-                "Que no debemos gastar dinero",
-                "Que los padres son buenos"
+                "Que Dios nos recibe siempre con amor incondicional cuando nos arrepentimos sinceramente",
+                "Que no debemos malgastar nuestro dinero en cosas innecesarias",
+                "Que los padres siempre deben ser comprensivos y tolerantes"
             ),
             explanation = "El amor del Padre siempre está esperando nuestro regreso con brazos abiertos.",
             relatedVerses = listOf(
@@ -285,12 +285,12 @@ fun getDailyQuestions(): List<DailyQuestion> {
         ),
         DailyQuestion(
             id = 18,
-            question = "¿Qué significa 'fe sin obras está muerta'?",
-            correctAnswer = "Que la verdadera fe se demuestra con acciones",
+            question = "¿Qué significa exactamente que la fe sin obras está muerta?",
+            correctAnswer = "Que la verdadera fe salvadora siempre se demuestra con acciones concretas de amor",
             options = listOf(
-                "Que la verdadera fe se demuestra con acciones",
-                "Que las obras salvan",
-                "Que la fe no importa"
+                "Que la verdadera fe salvadora siempre se demuestra con acciones concretas de amor",
+                "Que las buenas obras son lo único que realmente nos salva",
+                "Que tener fe no importa nada para la salvación personal"
             ),
             explanation = "Nuestra fe debe manifestarse en amor y servicio práctico a otros.",
             relatedVerses = listOf(
@@ -301,12 +301,12 @@ fun getDailyQuestions(): List<DailyQuestion> {
         ),
         DailyQuestion(
             id = 19,
-            question = "¿Cómo resistir la tentación?",
-            correctAnswer = "Con oración, la Palabra y el Espíritu Santo",
+            question = "¿Cómo podemos verdaderamente resistir las tentaciones del diablo?",
+            correctAnswer = "Con oración constante, la Palabra de Dios y el poder del Espíritu Santo",
             options = listOf(
-                "Con oración, la Palabra y el Espíritu Santo",
-                "Evitando todo peligro",
-                "Con fuerza de voluntad"
+                "Con oración constante, la Palabra de Dios y el poder del Espíritu Santo",
+                "Evitando absolutamente todo peligro y situación riesgosa",
+                "Con pura fuerza de voluntad y determinación personal"
             ),
             explanation = "Dios provee una salida de toda tentación cuando la buscamos.",
             relatedVerses = listOf(
@@ -317,17 +317,17 @@ fun getDailyQuestions(): List<DailyQuestion> {
         ),
         DailyQuestion(
             id = 20,
-            question = "¿Qué promesa nos da Dios sobre el futuro?",
-            correctAnswer = "Vida eterna con Él en Su reino",
+            question = "¿Qué promete verdaderamente Dios sobre nuestro futuro eterno?",
+            correctAnswer = "Vida eterna con Él en Su reino celestial donde no habrá más dolor ni lágrimas",
             options = listOf(
-                "Vida eterna con Él en Su reino",
-                "Prosperidad económica",
-                "Salud perfecta"
+                "Vida eterna con Él en Su reino celestial donde no habrá más dolor ni lágrimas",
+                "Prosperidad económica y riqueza material garantizada",
+                "Salud física perfecta y bienestar total en esta tierra"
             ),
             explanation = "El futuro de un creyente es seguro en las manos de Dios.",
             relatedVerses = listOf(
                 "Juan 14:2-3 - 'Voy, pues, a preparar lugar para vosotros.'",
-                "Apocalipsis 21:4 - 'Enjugará Dios toda lágrima de sus ojos, y no habrá más muerte, ni habrá más llanto, ni clamor, ni dolor.'",
+                "Apocalipsis 21:4 - 'Enjugará Dios toda lágrima de sus ojos, y no habrá más muerte, ni habrá más llanto, ni clamor.'",
                 "Romanos 8:28 - 'A los que aman a Dios, todas las cosas les ayudan a bien.'"
             )
         )

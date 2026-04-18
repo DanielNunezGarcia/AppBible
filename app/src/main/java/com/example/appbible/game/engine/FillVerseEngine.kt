@@ -21,6 +21,7 @@ class FillVerseEngine @Inject constructor() {
         currentVerses = when (difficulty) {
             "dificil" -> allVerses.filter { it.missingWords >= 10 }
             "medio" -> allVerses.filter { it.missingWords in 5..9 }
+            "todas" -> allVerses.shuffled().take(5)
             else -> allVerses.filter { it.missingWords <= 4 }
         }.shuffled().take(5)
 
@@ -121,6 +122,7 @@ class FillVerseEngine @Inject constructor() {
     companion object {
         private fun getFillVerses(): List<FillVerseData> {
             return listOf(
+                // Fácil (1-4 palabras)
                 FillVerseData(1, "En el ___ creó Dios los cielos y la tierra.", "Génesis 1:1", 1, listOf("principio"), listOf("principio", "tiempo", "inicio", "origen")),
                 FillVerseData(2, "Jehová es mi pastor; ___ me faltará.", "Salmo 23:1", 1, listOf("no"), listOf("no", "jamás", "nunca", "solamente")),
                 FillVerseData(3, "De tanto amó Dios al mundo, que ___ a su Hijo unigénito.", "Juan 3:16", 1, listOf("dio"), listOf("dio", "entregó", "envió", "mandó")),
@@ -135,7 +137,16 @@ class FillVerseEngine @Inject constructor() {
                 FillVerseData(12, "Por la ___ seremos salvos.", "1 Pedro 4:18", 1, listOf("gracia"), listOf("gracia", "fe", "esperanza", "caridad")),
                 FillVerseData(13, "Ahora ___ la fe, la esperanza y el amor; pero la mayor es el amor.", "1 Corintios 13:13", 1, listOf("permanece"), listOf("permanece", "queda", "existe", "está")),
                 FillVerseData(14, "Sed prudentes y velad en vuestras ___ porque el enemigo anda al acecho.", "1 Pedro 5:8", 1, listOf("oraciones"), listOf("oraciones", "oración", "fe", "esperanza")),
-                FillVerseData(15, "El que no ama no ha conocido a ___ porque Dios es amor.", "1 Juan 4:8", 1, listOf("Dios"), listOf("Dios", "Jesucristo", "el Padre", "el Señor"))
+                FillVerseData(15, "El que no ama no ha conocido a ___ porque Dios es amor.", "1 Juan 4:8", 1, listOf("Dios"), listOf("Dios", "Jesucristo", "el Padre", "el Señor")),
+
+                // Medio (5-9 palabras)
+                FillVerseData(16, "No se preocupen por su vida, qué comerán o qué beberán, ni por su cuerpo, qué vestirán.", "Lucas 12:22", 6, listOf("se preocupen"), listOf("se preocupen", "tengan miedo", "angustien", "paquen")),
+                FillVerseData(17, "Sean perfectos como su Padre celestial es perfecto, mostrando amor perfecto a sus enemigos.", "Mateo 5:48", 8, listOf("Sean perfectos"), listOf("Sean perfectos", "Sean santos", "Sean justos", "Sean buenos")),
+                FillVerseData(18, "Jesús les enseñó a orar directamente a Dios como su Padre, con fe y confianza verdadera.", "Mateo 6:9", 9, listOf("orar directamente"), listOf("orar directamente", "rezar", "hablar", "comunicarse")),
+
+                // Difícil (10+ palabras)
+                FillVerseData(19, "Ustedes son la sal de la tierra, pero si la sal pierde su sabor, cómo recuperarán su poder de dar sabor.", "Mateo 5:13", 14, listOf("pierde su sabor"), listOf("pierde su sabor", "se vuelve insípida", "pierde propiedades", "no sirve")),
+                FillVerseData(20, "No pueden servir a dos señores a la vez, amando y adorando a uno mientras odian al otro, porque uno sufriéndolo del otro.", "Mateo 6:24", 16, listOf("servir a dos"), listOf("servir a dos", "servir a Dios", "adorar", "seguir"))
             )
         }
     }

@@ -148,7 +148,7 @@ private fun SelectorDificultad(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "30s • 50 pts",
+                        text = "50 pts",
                         style = MaterialTheme.typography.bodySmall,
                         color = MarronClaro
                     )
@@ -185,7 +185,7 @@ private fun SelectorDificultad(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "20s • 100 pts",
+                        text = "100 pts",
                         style = MaterialTheme.typography.bodySmall,
                         color = MarronClaro
                     )
@@ -222,7 +222,7 @@ private fun SelectorDificultad(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "15s • 150 pts",
+                        text = "150 pts",
                         style = MaterialTheme.typography.bodySmall,
                         color = MarronClaro
                     )

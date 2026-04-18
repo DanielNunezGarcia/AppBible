@@ -15,9 +15,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 enum class Dificultad(val displayName: String, val tiempo: Int, val puntosBase: Int) {
-    FACIL("Fácil", 30, 50),
-    MEDIO("Medio", 20, 100),
-    DIFICIL("Difícil", 15, 150)
+    FACIL("Fácil", 15, 50),
+    MEDIO("Normal", 20, 100),
+    DIFICIL("Difícil", 30, 150)
 }
 
 enum class ModoJuego(val displayName: String) {
